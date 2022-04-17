@@ -1,21 +1,30 @@
-function FilmCard(): JSX.Element {
+import { Film } from "../../types/film";
+
+type FilmCardProps = {
+  film: Film;
+}
+
+function FilmCard({film}: FilmCardProps): JSX.Element {
+  const {nameRu, year, posterUrlPreview, rating, filmLength, genres, countries} = film;
+
+  function formateDuration (unformatted: string) {
+    const [hour, min] = unformatted.split(':');
+    return `${Number(hour)}ч ${Number(min)}мин`;
+  }
+
   return (
     <article className="film-card">
-      <h3 className="film-card__title">The Dance of Life</h3>
-      <p className="film-card__rating">8.3</p>
+      <h3 className="film-card__title">{nameRu}</h3>
+      <p className="film-card__rating">{rating}</p>
       <p className="film-card__info">
-        <span className="film-card__year">1929</span>
-        <span className="film-card__duration">1h 55m</span>
-        <span className="film-card__genre">Musical</span>
+        <span className="film-card__year">{year}</span>
+        <span className="film-card__duration">{formateDuration(filmLength)}</span>
+        <span className="film-card__genre">{genres[0].genre}</span>
       </p>
-      <img src="./images/posters/the-dance-of-life.jpg" alt="" className="film-card__poster" />
+      <img src={posterUrlPreview} alt="" className="film-card__poster" />
       <p className="film-card__description">
-        Burlesque comic Ralph "Skid" Johnson, and specialty dancer Bonny Lee King
-        (Carroll), end up together on a cold, rainy night at a tr…
+        {countries.map((elem) => elem.country).join(' ')}
       </p>
-      <a href="/" className="film-card__comments">
-        5 comments
-      </a>
       <div className="film-card__controls">
         <button
           className="film-card__controls-item film-card__controls-item--add-to-watchlist"

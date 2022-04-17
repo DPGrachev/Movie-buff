@@ -3,20 +3,20 @@ function Navigation(): JSX.Element {
     <nav className="main-navigation">
       <div className="main-navigation__items">
         <a href="#all" className="main-navigation__item main-navigation__item--active">
-          All movies
+          ТОП 250
         </a>
         <a href="#watchlist" className="main-navigation__item">
-          Watchlist <span className="main-navigation__item-count">13</span>
+          К просмотру <span className="main-navigation__item-count">0</span>
         </a>
         <a href="#history" className="main-navigation__item">
-          History <span className="main-navigation__item-count">4</span>
+          История <span className="main-navigation__item-count">0</span>
         </a>
         <a href="#favorites" className="main-navigation__item">
-          Favorites <span className="main-navigation__item-count">8</span>
+          Любимые <span className="main-navigation__item-count">0</span>
         </a>
       </div>
       <a href="#stats" className="main-navigation__additional">
-        Search
+        Поиск фильмов
       </a>
     </nav>
   );
