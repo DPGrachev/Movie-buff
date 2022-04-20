@@ -1,6 +1,6 @@
 import { Film } from "./film"
 
-export type FetchData = {
+export type FilmsResponse = {
   pagesCount: number,
   films: Film[],
 }

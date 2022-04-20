@@ -4,8 +4,8 @@ export type Film = {
   nameEn: string | null,
   year: string,
   filmLength: string,
-  countries: FilmCountry[],
-  genres: FilmGenre[],
+  countries: Country[],
+  genres: Genre[],
   rating: string,
   ratingVoteCount: number,
   posterUrl: string,
@@ -13,10 +13,10 @@ export type Film = {
   ratingChange: null
 }
 
-type FilmCountry = {
+type Country = {
   country: string
 }
 
-type FilmGenre = {
+type Genre = {
   genre: string
 }

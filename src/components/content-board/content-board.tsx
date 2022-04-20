@@ -1,24 +1,24 @@
 import { useEffect, useState } from 'react';
-import { FetchData } from '../../types/fetch-data';
+import { FilmsResponse } from '../../types/responses';
 import { Film } from '../../types/film';
 import FilmCard from '../film-card/film-card';
 
 function ContentBoard(): JSX.Element {
-  const [filmCards, setFilmCards] = useState([] as Film[]);
-  const [showPageCount, setShowPageCount] = useState(1);
+  const [filmCards, setFilmCards] = useState<Film[]>([]);
+  const [currentPageCount, setCurrentPageCount] = useState(1);
   const [maxPageNumber, setMaxPageNumber] = useState(0);
 
-  const showFilmCards = filmCards.map((film) => <FilmCard film={film} key={film.filmId}/>);
+  const preparedFilmCards = filmCards.map((film) => <FilmCard film={film} key={film.filmId}/>);
 
   useEffect(() => {
-    fetch(`https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_250_BEST_FILMS&page=${showPageCount}`, {
+    fetch(`https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_250_BEST_FILMS&page=${currentPageCount}`, {
       method: 'GET',
       headers: {
           'X-API-KEY': '61bb7a97-7cb8-418b-a9e0-a9c0a84911b8',
           'Content-Type': 'application/json',
       },
     })
-      .then<FetchData>(res => res.json())
+      .then<FilmsResponse>(res => res.json())
       .then(res => setFilmCards((prevState) => {
         setMaxPageNumber(res.pagesCount);
         if( prevState.length > 0 && prevState[0].filmId === res.films[0].filmId) {
@@ -27,17 +27,17 @@ function ContentBoard(): JSX.Element {
         return prevState.concat(res.films)
       }));
 
-  }, [showPageCount]);
+  }, [currentPageCount]);
 
   function onShowMoreButtonClick () {
-    setShowPageCount(showPageCount + 1);
+    setCurrentPageCount(currentPageCount + 1);
   }
 
   return (
     <section className="films-list">
-      <div className="films-list__container">{showFilmCards.length > 0 && showFilmCards}</div>
+      <div className="films-list__container">{preparedFilmCards.length > 0 && preparedFilmCards}</div>
 
-      {showPageCount !== maxPageNumber && <button className="films-list__show-more" onClick={onShowMoreButtonClick}>Показать больше</button>}
+      {currentPageCount !== maxPageNumber && <button className="films-list__show-more" onClick={onShowMoreButtonClick}>Показать больше</button>}
     </section>
   );
 }
