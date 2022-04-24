@@ -1,37 +1,24 @@
 import { useEffect, useState } from 'react';
-import { FilmsResponse } from '../../types/responses';
-import { FilmShortInfo } from '../../types/film';
 import FilmCard from '../film-card/film-card';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFilms, getMaxPageNumber } from '../../store/selectors';
+import { fetchStartPageOfFilmsAction, fetchOtherPageOfFilmsAction } from '../../store/api-actions';
 
 function ContentBoard(): JSX.Element {
-  const [filmCards, setFilmCards] = useState<FilmShortInfo[]>([]);
+  const filmCards = useSelector(getFilms);
+  const maxPageNumber = useSelector(getMaxPageNumber);
+  const dispatch = useDispatch();
   const [currentPageCount, setCurrentPageCount] = useState(1);
-  const [maxPageNumber, setMaxPageNumber] = useState(0);
 
   const preparedFilmCards = filmCards.map((film) => <FilmCard film={film} key={film.filmId} />);
 
   useEffect(() => {
-    fetch(
-      `https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_250_BEST_FILMS&page=${currentPageCount}`,
-      {
-        method: 'GET',
-        headers: {
-          'X-API-KEY': '61bb7a97-7cb8-418b-a9e0-a9c0a84911b8',
-          'Content-Type': 'application/json',
-        },
-      },
-    )
-      .then<FilmsResponse>((res) => res.json())
-      .then((res) =>
-        setFilmCards((prevState) => {
-          setMaxPageNumber(res.pagesCount);
-          if (prevState.length > 0 && prevState[0].filmId === res.films[0].filmId) {
-            return prevState;
-          }
-          return prevState.concat(res.films);
-        }),
-      );
-  }, [currentPageCount]);
+    if (currentPageCount === 1) {
+      dispatch<any>(fetchStartPageOfFilmsAction());
+    } else {
+      dispatch<any>(fetchOtherPageOfFilmsAction(currentPageCount));
+    }
+  }, [currentPageCount, dispatch]);
 
   function onShowMoreButtonClick() {
     setCurrentPageCount(currentPageCount + 1);

@@ -1,15 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { FilmFullInfo } from '../../types/film';
+import { fetchCurrentFilmAction } from '../../store/api-actions';
+import { getCurrentFilm } from '../../store/selectors';
 import Navigation from '../navigation/navigation';
+
+type Params = {
+  id: string;
+};
 
 function formateDuration(duration: number) {
   return `${Math.floor(duration / 60)}ч ${duration % 60}мин`;
 }
 
 function FilmPage(): JSX.Element {
-  const params = useParams();
-  const [currentFilm, setCurrentFilm] = useState<FilmFullInfo>();
+  const params = useParams<Params>();
+  const dispatch = useDispatch();
+  const currentFilm = useSelector(getCurrentFilm);
 
   const duration = currentFilm ? formateDuration(currentFilm.filmLength) : 0;
   const countries = currentFilm?.countries.map((country) => (
@@ -22,29 +29,24 @@ function FilmPage(): JSX.Element {
       {genre.genre}
     </span>
   ));
+  const isCurrentFilm = currentFilm && currentFilm.kinopoiskId === Number(params.id) ? true : false;
 
   useEffect(() => {
-    fetch(`https://kinopoiskapiunofficial.tech/api/v2.2/films/${params.id}`, {
-      method: 'GET',
-      headers: {
-        'X-API-KEY': '61bb7a97-7cb8-418b-a9e0-a9c0a84911b8',
-        'Content-Type': 'application/json',
-      },
-    })
-      .then<FilmFullInfo>((res) => res.json())
-      .then((res) => setCurrentFilm(res));
-  }, [params.id]);
+    if (!currentFilm || currentFilm.kinopoiskId !== Number(params.id)) {
+      dispatch<any>(fetchCurrentFilmAction(params.id as string));
+    }
+  }, [params.id, currentFilm, dispatch]);
 
   return (
     <main className="main">
       <Navigation />
-      {!currentFilm && <h1>Загрузка...</h1>}
-      {currentFilm && (
+      {!isCurrentFilm && <h1>Загрузка...</h1>}
+      {isCurrentFilm && (
         <section>
           <div className="film-details__top-container">
             <div className="film-details__info-wrap">
               <div className="film-details__poster">
-                <img className="film-details__poster-img" src={currentFilm.posterUrl} alt="" />
+                <img className="film-details__poster-img" src={currentFilm?.posterUrl} alt="" />
 
                 <p className="film-details__age">18+</p>
               </div>
@@ -52,14 +54,14 @@ function FilmPage(): JSX.Element {
               <div className="film-details__info">
                 <div className="film-details__info-head">
                   <div className="film-details__title-wrap">
-                    <h3 className="film-details__title">{currentFilm.nameRu}</h3>
+                    <h3 className="film-details__title">{currentFilm?.nameRu}</h3>
                     <p className="film-details__title-original">
-                      Оригинал: {currentFilm.nameOriginal}
+                      Оригинал: {currentFilm?.nameOriginal}
                     </p>
                   </div>
 
                   <div className="film-details__rating">
-                    <p className="film-details__total-rating">{currentFilm.ratingKinopoisk}</p>
+                    <p className="film-details__total-rating">{currentFilm?.ratingKinopoisk}</p>
                   </div>
                 </div>
 
@@ -67,7 +69,7 @@ function FilmPage(): JSX.Element {
                   <tbody>
                     <tr className="film-details__row">
                       <td className="film-details__term">Год релиза</td>
-                      <td className="film-details__cell">{currentFilm.year}</td>
+                      <td className="film-details__cell">{currentFilm?.year}</td>
                     </tr>
                   </tbody>
                   <tbody>
@@ -90,7 +92,7 @@ function FilmPage(): JSX.Element {
                   </tbody>
                 </table>
 
-                <p className="film-details__film-description">{currentFilm.description}</p>
+                <p className="film-details__film-description">{currentFilm?.description}</p>
               </div>
             </div>
 

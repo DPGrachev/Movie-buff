@@ -1,10 +1,12 @@
+import { Link } from 'react-router-dom';
+
 function Navigation(): JSX.Element {
   return (
     <nav className="main-navigation">
       <div className="main-navigation__items">
-        <a href="#all" className="main-navigation__item main-navigation__item--active">
+        <Link to="/" className="main-navigation__item main-navigation__item--active">
           ТОП 250
-        </a>
+        </Link>
         <a href="#watchlist" className="main-navigation__item">
           К просмотру <span className="main-navigation__item-count">0</span>
         </a>
