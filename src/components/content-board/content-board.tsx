@@ -1,22 +1,23 @@
 import { useEffect, useState } from 'react';
 import FilmCard from '../film-card/film-card';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getFilms, getMaxPageNumber } from '../../store/selectors';
 import { fetchStartPageOfFilmsAction, fetchOtherPageOfFilmsAction } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 function ContentBoard(): JSX.Element {
   const filmCards = useSelector(getFilms);
   const maxPageNumber = useSelector(getMaxPageNumber);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [currentPageCount, setCurrentPageCount] = useState(1);
 
   const preparedFilmCards = filmCards.map((film) => <FilmCard film={film} key={film.filmId} />);
 
   useEffect(() => {
     if (currentPageCount === 1) {
-      dispatch<any>(fetchStartPageOfFilmsAction());
+      dispatch(fetchStartPageOfFilmsAction());
     } else {
-      dispatch<any>(fetchOtherPageOfFilmsAction(currentPageCount));
+      dispatch(fetchOtherPageOfFilmsAction(currentPageCount));
     }
   }, [currentPageCount, dispatch]);
 

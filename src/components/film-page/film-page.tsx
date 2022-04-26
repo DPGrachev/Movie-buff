@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { fetchCurrentFilmAction } from '../../store/api-actions';
 import { getCurrentFilm } from '../../store/selectors';
 import Navigation from '../navigation/navigation';
@@ -15,7 +16,7 @@ function formateDuration(duration: number) {
 
 function FilmPage(): JSX.Element {
   const params = useParams<Params>();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const currentFilm = useSelector(getCurrentFilm);
 
   const duration = currentFilm ? formateDuration(currentFilm.filmLength) : 0;
@@ -33,7 +34,7 @@ function FilmPage(): JSX.Element {
 
   useEffect(() => {
     if (!currentFilm || currentFilm.kinopoiskId !== Number(params.id)) {
-      dispatch<any>(fetchCurrentFilmAction(params.id as string));
+      dispatch(fetchCurrentFilmAction(params.id as string));
     }
   }, [params.id, currentFilm, dispatch]);
 
