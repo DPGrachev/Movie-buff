@@ -1,6 +1,6 @@
-import { Film } from "./film"
+import { FilmShortInfo } from './film';
 
 export type FilmsResponse = {
-  pagesCount: number,
-  films: Film[],
-}
+  pagesCount: number;
+  films: FilmShortInfo[];
+};

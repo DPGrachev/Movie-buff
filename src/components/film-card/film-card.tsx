@@ -1,16 +1,17 @@
-import { Film } from "../../types/film";
+import { Link } from 'react-router-dom';
+import { FilmShortInfo } from '../../types/film';
 
 type Props = {
-  film: Film;
-}
+  film: FilmShortInfo;
+};
 
-function formateDuration (unformatted: string) {
-  const [hour, min] = unformatted.split(':');
+function formateDuration(duration: string) {
+  const [hour, min] = duration.split(':');
   return `${Number(hour)}ч ${Number(min)}мин`;
 }
 
-function FilmCard({film}: Props): JSX.Element {
-  const {nameRu, year, posterUrlPreview, rating, filmLength, genres} = film;
+function FilmCard({ film }: Props): JSX.Element {
+  const { nameRu, year, posterUrlPreview, rating, filmLength, genres, filmId } = film;
   const countries = film.countries.map((elem) => elem.country).join(' ');
   const duration = formateDuration(filmLength);
 
@@ -23,10 +24,10 @@ function FilmCard({film}: Props): JSX.Element {
         <span className="film-card__duration">{duration}</span>
         <span className="film-card__genre">{genres[0].genre}</span>
       </p>
-      <img src={posterUrlPreview} alt="" className="film-card__poster" />
-      <p className="film-card__description">
-        {countries}
-      </p>
+      <Link to={`/film/${filmId}`}>
+        <img src={posterUrlPreview} alt="" className="film-card__poster" />
+      </Link>
+      <p className="film-card__description">{countries}</p>
       <div className="film-card__controls">
         <button
           className="film-card__controls-item film-card__controls-item--add-to-watchlist"
