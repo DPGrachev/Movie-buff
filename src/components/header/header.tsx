@@ -31,17 +31,6 @@ function Header(): JSX.Element {
       <header className="header">
         <h1 className="header__logo logo">Movie Buff</h1>
         <section className="header__profile profile">
-          {/* {isLogin 
-            ? <>
-                <p className="profile__name">{user?.email}</p>
-                <img className="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35"/>
-                <a href='/' className="login_button" onClick={onLoginClick}>Выйти</a>
-              </>
-            : <a href='/' className="login_button" onClick={onLoginClick}>Войти</a>
-          } */}
-          {/* <p className="profile__name">Movie Buff</p>
-          <img className="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35"/> */}
-          {/* <a href='/' className="login_button" onClick={onLoginClick}>Войти</a> */}
           {isLogin &&
             <>
               <p className="profile__name">{user?.email}</p>
