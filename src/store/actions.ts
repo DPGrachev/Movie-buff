@@ -1,6 +1,7 @@
 import { ActionType } from '../const';
 import { createAction } from '@reduxjs/toolkit';
 import { FilmFullInfo, FilmShortInfo } from '../types/film';
+import { UserData } from '../types/user-data';
 
 const setFilms = createAction(ActionType.setFilms, (films: FilmShortInfo[]) => ({
   payload: {
@@ -26,4 +27,12 @@ const setCurrentFilm = createAction(ActionType.setCurrentFilm, (film: FilmFullIn
   },
 }));
 
-export { setFilms, updateFilms, setMaxPageNumber, setCurrentFilm };
+const login = createAction(ActionType.login, (user: UserData) => ({
+  payload: {
+    user,
+  },
+}));
+
+const logout = createAction(ActionType.logout);
+
+export { setFilms, updateFilms, setMaxPageNumber, setCurrentFilm, login, logout };
