@@ -1,11 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { State } from '../types/state';
-import { setCurrentFilm, setFilms, setMaxPageNumber, updateFilms } from './actions';
+import { login, logout, setCurrentFilm, setFilms, setMaxPageNumber, updateFilms } from './actions';
 
 const initialState: State = {
   films: [],
   maxPageNumber: 0,
   currentFilm: null,
+  isLogin: false,
+  user: null,
 };
 
 const rootReducer = createReducer(initialState, (builder) => {
@@ -21,7 +23,15 @@ const rootReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setCurrentFilm, (state, action) => {
       state.currentFilm = action.payload.film;
-    });
+    })
+    .addCase(login, (state, action) => {
+      state.isLogin = true;
+      state.user = action.payload.user;
+    })
+    .addCase(logout, (state) => {
+      state.isLogin = false;
+      state.user = null;
+    })
 });
 
 export { rootReducer };

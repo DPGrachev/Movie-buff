@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 
-const BACKEND_URL = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const REQUEST_TIMEOUT = 5000;
 
 enum HttpCode {
@@ -13,7 +13,7 @@ const createAPI = (): AxiosInstance => {
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
     headers: {
-      'X-API-KEY': '61bb7a97-7cb8-418b-a9e0-a9c0a84911b8',
+      'X-API-KEY': process.env.REACT_APP_BACKEND_URL as string,
       'Content-Type': 'application/json',
     },
   });

@@ -4,6 +4,8 @@ import { rootReducer } from './reducer';
 
 const api = createAPI();
 
+console.log(api);
+
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
