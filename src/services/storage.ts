@@ -12,7 +12,7 @@ class Storage {
     const user = data ? JSON.parse(data) : null;
 
     if ( !user || user.password !== password) {
-      throw new Error('Неверная почта или пароль');
+      throw new Error();
     }
     
     return user;
@@ -23,10 +23,14 @@ class Storage {
     const user = data ? JSON.parse(data) : null;
 
     if (user) {
-      throw new Error('Пользователь с такой почтой уже существует');
+      throw new Error();
     }
 
-    this.#storage.setItem(userData.email, JSON.stringify(userData))
+    this.#storage.setItem(userData.email, JSON.stringify(userData));
+  }
+
+  updateUser = (userData: UserData) => {
+    this.#storage.setItem(userData.email, JSON.stringify(userData));
   }
 }
 

@@ -60,6 +60,19 @@ export type FilmFullInfo = {
   year: number;
 };
 
+export type FilmInfo = {
+  filmId: number;
+  nameRu: string;
+  nameEn: string | null;
+  year: number;
+  filmLength: string | number;
+  countries: Country[];
+  genres: Genre[];
+  rating:  number;
+  posterUrl: string;
+  description: string | null;
+}
+
 type Country = {
   country: string;
 };

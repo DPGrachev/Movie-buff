@@ -1,21 +1,13 @@
-import { Link } from 'react-router-dom';
+import { ContentType } from '../../const';
+import NavigationItem from '../navigation-item/navigation-item';
 
 function Navigation(): JSX.Element {
+  const navigationItems = Object.values(ContentType).map((item) => <NavigationItem key={item} name={item}/>)
+
   return (
     <nav className="main-navigation">
       <div className="main-navigation__items">
-        <Link to="/" className="main-navigation__item main-navigation__item--active">
-          ТОП 250
-        </Link>
-        <a href="#watchlist" className="main-navigation__item">
-          К просмотру <span className="main-navigation__item-count">0</span>
-        </a>
-        <a href="#history" className="main-navigation__item">
-          История <span className="main-navigation__item-count">0</span>
-        </a>
-        <a href="#favorites" className="main-navigation__item">
-          Любимые <span className="main-navigation__item-count">0</span>
-        </a>
+        {navigationItems}
       </div>
       <a href="#stats" className="main-navigation__additional">
         Поиск фильмов

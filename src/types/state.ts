@@ -1,10 +1,13 @@
-import { FilmFullInfo, FilmShortInfo } from './film';
+import { ContentType } from '../const';
+import { FilmInfo } from './film';
 import type { UserData } from './user-data';
 
 export type State = {
-  films: FilmShortInfo[],
+  films: FilmInfo[],
+  userFilms: FilmInfo[],
+  contentType: ContentType,
   maxPageNumber: number,
-  currentFilm: FilmFullInfo | null,
+  currentFilm: FilmInfo | null,
   isLogin: boolean,
   user: UserData | null,
 };
