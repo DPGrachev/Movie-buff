@@ -19,7 +19,7 @@ function FilmPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const currentFilm = useSelector(getCurrentFilm);
 
-  const duration = currentFilm ? formateDuration(currentFilm.filmLength) : 0;
+  const duration = currentFilm ? formateDuration(currentFilm.filmLength as number) : 0;
   const countries = currentFilm?.countries.map((country) => (
     <span key={country.country} className="film-details__genre">
       {country.country}
@@ -30,10 +30,10 @@ function FilmPage(): JSX.Element {
       {genre.genre}
     </span>
   ));
-  const isCurrentFilm = currentFilm && currentFilm.kinopoiskId === Number(params.id) ? true : false;
+  const isCurrentFilm = currentFilm && currentFilm.filmId === Number(params.id) ? true : false;
 
   useEffect(() => {
-    if (!currentFilm || currentFilm.kinopoiskId !== Number(params.id)) {
+    if (!currentFilm || currentFilm.filmId !== Number(params.id)) {
       dispatch(fetchCurrentFilmAction(params.id as string));
     }
   }, [params.id, currentFilm, dispatch]);
@@ -56,13 +56,11 @@ function FilmPage(): JSX.Element {
                 <div className="film-details__info-head">
                   <div className="film-details__title-wrap">
                     <h3 className="film-details__title">{currentFilm?.nameRu}</h3>
-                    <p className="film-details__title-original">
-                      Оригинал: {currentFilm?.nameOriginal}
-                    </p>
+                    <p className="film-details__title-original">Оригинал: {currentFilm?.nameEn}</p>
                   </div>
 
                   <div className="film-details__rating">
-                    <p className="film-details__total-rating">{currentFilm?.ratingKinopoisk}</p>
+                    <p className="film-details__total-rating">{currentFilm?.rating}</p>
                   </div>
                 </div>
 

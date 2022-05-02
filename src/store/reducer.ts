@@ -1,9 +1,24 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { ContentType } from '../const';
+import storage from '../services/storage';
 import { State } from '../types/state';
-import { login, logout, setCurrentFilm, setFilms, setMaxPageNumber, updateFilms } from './actions';
+import {
+  login,
+  logout,
+  setContentType,
+  setCurrentFilm,
+  setFilms,
+  setMaxPageNumber,
+  setUserFilms,
+  updateFilms,
+  updateUser,
+  updateUserFilms,
+} from './actions';
 
 const initialState: State = {
   films: [],
+  userFilms: [],
+  contentType: ContentType.topFilms,
   maxPageNumber: 0,
   currentFilm: null,
   isLogin: false,
@@ -14,6 +29,15 @@ const rootReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(setFilms, (state, action) => {
       state.films = action.payload.films;
+    })
+    .addCase(setUserFilms, (state, action) => {
+      state.userFilms = action.payload.films;
+    })
+    .addCase(updateUserFilms, (state, action) => {
+      state.userFilms = state.userFilms.concat(action.payload.film);
+    })
+    .addCase(setContentType, (state, action) => {
+      state.contentType = action.payload.contentType;
     })
     .addCase(updateFilms, (state, action) => {
       state.films = state.films.concat(action.payload.films);
@@ -32,6 +56,10 @@ const rootReducer = createReducer(initialState, (builder) => {
       state.isLogin = false;
       state.user = null;
     })
+    .addCase(updateUser, (state, action) => {
+      storage.updateUser(action.payload.user);
+      state.user = action.payload.user;
+    });
 });
 
 export { rootReducer };

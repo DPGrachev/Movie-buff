@@ -13,7 +13,7 @@ const createAPI = (): AxiosInstance => {
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
     headers: {
-      'X-API-KEY': process.env.REACT_APP_BACKEND_URL as string,
+      'X-API-KEY': '01fc2e74-3c86-48ff-9760-06fd760e77bd',
       'Content-Type': 'application/json',
     },
   });
