@@ -68,10 +68,10 @@ export type FilmInfo = {
   filmLength: string | number;
   countries: Country[];
   genres: Genre[];
-  rating:  number;
+  rating: number;
   posterUrl: string;
   description: string | null;
-}
+};
 
 type Country = {
   country: string;

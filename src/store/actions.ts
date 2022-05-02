@@ -59,4 +59,15 @@ const updateUser = createAction(ActionType.updateUser, (user: UserData) => ({
   },
 }));
 
-export { setFilms, setContentType, updateFilms, setMaxPageNumber, setCurrentFilm, login, logout, updateUser, setUserFilms, updateUserFilms };
+export {
+  setFilms,
+  setContentType,
+  updateFilms,
+  setMaxPageNumber,
+  setCurrentFilm,
+  login,
+  logout,
+  updateUser,
+  setUserFilms,
+  updateUserFilms,
+};

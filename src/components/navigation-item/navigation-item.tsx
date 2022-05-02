@@ -7,51 +7,62 @@ import { setContentType } from '../../store/actions';
 import { getContentType, getUser } from '../../store/selectors';
 
 type Props = {
-  name: ContentType,
-}
+  name: ContentType;
+};
 
-function NavigationItem ({name} : Props): JSX.Element {
+function NavigationItem({ name }: Props): JSX.Element {
   const dispatch = useAppDispatch();
   const currentContentType = useSelector(getContentType);
   const user = useSelector(getUser);
   let filmsCount = 0;
 
   if (user && name !== ContentType.topFilms) {
-    const param = adaptTypeToUserData()
+    const param = adaptTypeToUserData();
     if (param) {
       filmsCount = user[param].length;
     }
-    
   }
 
-  function adaptTypeToUserData () {
+  function adaptTypeToUserData() {
     switch (name) {
-      case ContentType.watchList : {
+      case ContentType.watchList: {
         return 'watchlist';
       }
-      case ContentType.history : {
+      case ContentType.history: {
         return 'history';
       }
-      case ContentType.favorites : {
+      case ContentType.favorites: {
         return 'favorites';
       }
     }
   }
 
-  function onClick (evt: MouseEvent) {
+  function onClick(evt: MouseEvent) {
     dispatch(setContentType(name));
   }
 
   if (name === ContentType.topFilms) {
     return (
-      <Link to={AppRoutes.Main} className={`main-navigation__item ${currentContentType === name ? 'main-navigation__item--active' : ''}`} onClick={onClick}>
-      {name}
+      <Link
+        to={AppRoutes.Main}
+        className={`main-navigation__item ${
+          currentContentType === name ? 'main-navigation__item--active' : ''
+        }`}
+        onClick={onClick}
+      >
+        {name}
       </Link>
-    )
+    );
   }
 
   return (
-    <Link to={`/userFilms/${adaptTypeToUserData()}`} className={`main-navigation__item ${currentContentType === name ? 'main-navigation__item--active' : ''}`} onClick={onClick}>
+    <Link
+      to={`/userFilms/${adaptTypeToUserData()}`}
+      className={`main-navigation__item ${
+        currentContentType === name ? 'main-navigation__item--active' : ''
+      }`}
+      onClick={onClick}
+    >
       {name}
       {filmsCount > 0 && <span className="main-navigation__item-count">{filmsCount}</span>}
     </Link>

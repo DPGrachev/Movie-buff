@@ -1,9 +1,15 @@
 import { ThunkActionResult } from '../types/actions';
-import { setFilms, setCurrentFilm, setMaxPageNumber, updateFilms, updateUserFilms } from './actions';
+import {
+  setFilms,
+  setCurrentFilm,
+  setMaxPageNumber,
+  updateFilms,
+  updateUserFilms,
+} from './actions';
 import { FilmsResponse } from '../types/responses';
 import { FilmFullInfo, FilmInfo, FilmShortInfo } from '../types/film';
 
-const adaptShortFilmInfoToClient = (filmInfo: FilmShortInfo) :FilmInfo => {
+const adaptShortFilmInfoToClient = (filmInfo: FilmShortInfo): FilmInfo => {
   return {
     filmId: filmInfo.filmId,
     nameRu: filmInfo.nameRu,
@@ -15,10 +21,10 @@ const adaptShortFilmInfoToClient = (filmInfo: FilmShortInfo) :FilmInfo => {
     rating: Number(filmInfo.rating),
     posterUrl: filmInfo.posterUrl,
     description: null,
-  }
-}
+  };
+};
 
-const adaptFullFilmInfoToClient = (filmInfo: FilmFullInfo) :FilmInfo => {
+const adaptFullFilmInfoToClient = (filmInfo: FilmFullInfo): FilmInfo => {
   return {
     filmId: filmInfo.kinopoiskId,
     nameRu: filmInfo.nameRu,
@@ -30,14 +36,14 @@ const adaptFullFilmInfoToClient = (filmInfo: FilmFullInfo) :FilmInfo => {
     rating: filmInfo.ratingKinopoisk,
     posterUrl: filmInfo.posterUrl,
     description: filmInfo.description,
-  }
-}
+  };
+};
 
 const fetchStartPageOfFilmsAction =
   (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     await api.get<FilmsResponse>(`top?type=TOP_250_BEST_FILMS&page=1`).then((response) => {
-      dispatch(setFilms(response.data.films.map(film => adaptShortFilmInfoToClient(film))));
+      dispatch(setFilms(response.data.films.map((film) => adaptShortFilmInfoToClient(film))));
       dispatch(setMaxPageNumber(response.data.pagesCount));
     });
   };
@@ -48,7 +54,7 @@ const fetchOtherPageOfFilmsAction =
     await api
       .get<FilmsResponse>(`top?type=TOP_250_BEST_FILMS&page=${currentPageCount}`)
       .then((response) => {
-        dispatch(updateFilms(response.data.films.map(film => adaptShortFilmInfoToClient(film))));
+        dispatch(updateFilms(response.data.films.map((film) => adaptShortFilmInfoToClient(film))));
       });
   };
 
@@ -61,12 +67,16 @@ const fetchCurrentFilmAction =
   };
 
 const fetchUserFilmsAction =
-  (filmId: number): ThunkActionResult => 
+  (filmId: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     await api
       .get<FilmFullInfo>(`${filmId}`)
       .then((response) => dispatch(updateUserFilms(adaptFullFilmInfoToClient(response.data))));
   };
 
-
-export { fetchStartPageOfFilmsAction, fetchOtherPageOfFilmsAction, fetchCurrentFilmAction, fetchUserFilmsAction };
+export {
+  fetchStartPageOfFilmsAction,
+  fetchOtherPageOfFilmsAction,
+  fetchCurrentFilmAction,
+  fetchUserFilmsAction,
+};

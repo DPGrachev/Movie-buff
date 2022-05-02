@@ -56,9 +56,7 @@ function FilmPage(): JSX.Element {
                 <div className="film-details__info-head">
                   <div className="film-details__title-wrap">
                     <h3 className="film-details__title">{currentFilm?.nameRu}</h3>
-                    <p className="film-details__title-original">
-                      Оригинал: {currentFilm?.nameEn}
-                    </p>
+                    <p className="film-details__title-original">Оригинал: {currentFilm?.nameEn}</p>
                   </div>
 
                   <div className="film-details__rating">

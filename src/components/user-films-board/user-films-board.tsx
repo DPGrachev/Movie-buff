@@ -5,37 +5,39 @@ import { getUser, getUserFilms } from '../../store/selectors';
 import { fetchUserFilmsAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { setUserFilms } from '../../store/actions';
+import type { UserFavouritesType } from '../../types/user-data';
+
+const PAGE_STEP = 5;
 
 type Props = {
-  type: 'watchlist' | 'history' | 'favorites',
-}
+  type: UserFavouritesType;
+};
 
-function UserFilmsBoard({type} : Props): JSX.Element {
-  const PAGE_STEP = 5;
+function UserFilmsBoard({ type }: Props): JSX.Element {
   const user = useSelector(getUser);
   const films = useSelector(getUserFilms);
   const dispatch = useAppDispatch();
   const [filmsId, setFilmsId] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const filmsCount = filmsId.length;
-  
+
   useEffect(() => {
-    if ( user) {
-      setFilmsId(user[type])
+    if (user) {
+      setFilmsId(user[type]);
     }
 
     return () => {
       dispatch(setUserFilms([]));
-    }
-  }, [ user, dispatch, type])
+    };
+  }, [user, dispatch, type]);
 
   useEffect(() => {
     if (user![type] === filmsId) {
       filmsId.slice(PAGE_STEP * (currentPage - 1), PAGE_STEP * currentPage).forEach((id) => {
-        dispatch(fetchUserFilmsAction(id))
-      })
+        dispatch(fetchUserFilmsAction(id));
+      });
     }
-  },[filmsId, dispatch, user, currentPage, type])
+  }, [filmsId, dispatch, user, currentPage, type]);
 
   const preparedFilmCards = films.map((film) => <FilmCard film={film} key={film.filmId} />);
 

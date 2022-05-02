@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { updateUser } from '../../store/actions';
 import { getUser } from '../../store/selectors';
 import { FilmInfo } from '../../types/film';
-import { UserData } from '../../types/user-data';
+import { UserData, UserFavouritesType } from '../../types/user-data';
 
 type Props = {
   film: FilmInfo;
@@ -28,19 +28,19 @@ function FilmCard({ film }: Props): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  function onButtonClick (evt: MouseEvent<HTMLButtonElement>) {
-    if ( !user ) {
+  function onButtonClick(evt: MouseEvent<HTMLButtonElement>) {
+    if (!user) {
       navigate(AppRoutes.Login);
       return;
     }
-    
-    let newUserData : UserData;
-    let type = evt.currentTarget.dataset.type as 'watchlist' | 'history' | 'favorites';
 
-    if ( evt.currentTarget.classList.contains('film-card__controls-item--active') ) {
-      newUserData = {...user, [type]: user[type].filter((id) => id !== filmId)};
+    let newUserData: UserData;
+    let type = evt.currentTarget.dataset.type as UserFavouritesType;
+
+    if (user[type].includes(filmId)) {
+      newUserData = { ...user, [type]: user[type].filter((id) => id !== filmId) };
     } else {
-      newUserData = {...user, [type]: user[type].concat(filmId)};
+      newUserData = { ...user, [type]: user[type].concat(filmId) };
     }
 
     dispatch(updateUser(newUserData));
@@ -61,25 +61,31 @@ function FilmCard({ film }: Props): JSX.Element {
       <p className="film-card__description">{countries}</p>
       <div className="film-card__controls">
         <button
-          className={`film-card__controls-item film-card__controls-item--add-to-watchlist ${ user?.watchlist.includes(filmId) ? 'film-card__controls-item--active' : ''}`}
+          className={`film-card__controls-item film-card__controls-item--add-to-watchlist ${
+            user?.watchlist.includes(filmId) ? 'film-card__controls-item--active' : ''
+          }`}
           type="button"
-          data-type='watchlist'
+          data-type="watchlist"
           onClick={onButtonClick}
         >
           Add to watchlist
         </button>
         <button
-          className={`film-card__controls-item film-card__controls-item--mark-as-watched ${ user?.history.includes(filmId) ? 'film-card__controls-item--active' : ''}`}
+          className={`film-card__controls-item film-card__controls-item--mark-as-watched ${
+            user?.history.includes(filmId) ? 'film-card__controls-item--active' : ''
+          }`}
           type="button"
-          data-type='history'
+          data-type="history"
           onClick={onButtonClick}
         >
           Mark as watched
         </button>
         <button
-          className={`film-card__controls-item film-card__controls-item--favorite ${ user?.favorites.includes(filmId) ? 'film-card__controls-item--active' : ''}`}
+          className={`film-card__controls-item film-card__controls-item--favorite ${
+            user?.favorites.includes(filmId) ? 'film-card__controls-item--active' : ''
+          }`}
           type="button"
-          data-type='favorites'
+          data-type="favorites"
           onClick={onButtonClick}
         >
           Mark as favorite

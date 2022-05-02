@@ -5,3 +5,5 @@ export type UserData = {
   history: number[],
   watchlist: number[],
 }
+
+export type UserFavouritesType = 'watchlist' | 'history' | 'favorites';

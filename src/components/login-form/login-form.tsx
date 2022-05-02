@@ -1,10 +1,12 @@
-import { MouseEvent, useRef, useState } from "react";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { login } from "../../store/actions";
+import { MouseEvent, useRef, useState } from 'react';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { login } from '../../store/actions';
 import storage from '../../services/storage';
-import { UserData } from "../../types/user-data";
-import { useNavigate } from "react-router-dom";
-import { AppRoutes } from "../../const";
+import { UserData } from '../../types/user-data';
+import { useNavigate } from 'react-router-dom';
+import { AppRoutes } from '../../const';
+
+const EMAIL_PATTERN = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
 
 export function LoginForm(): JSX.Element {
   const [isRegistration, setIsRegistration] = useState(false);
@@ -15,18 +17,18 @@ export function LoginForm(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  function changeForm (evt: MouseEvent) {
+  function changeForm(evt: MouseEvent) {
     evt.preventDefault();
     setIsRegistration((prevState) => !prevState);
     setErrorMessage('');
   }
 
-  function UserLogin (evt: MouseEvent) {
+  function UserLogin(evt: MouseEvent) {
     evt.preventDefault();
     const userEmail = emailField.current?.value.toLowerCase() as string;
     const userPassword = passwordField.current?.value as string;
 
-    if( !form.current?.reportValidity() ) {
+    if (!form.current?.reportValidity()) {
       return;
     }
 
@@ -39,12 +41,12 @@ export function LoginForm(): JSX.Element {
     }
   }
 
-  function registration (evt: MouseEvent) {
+  function registration(evt: MouseEvent) {
     evt.preventDefault();
     const userEmail = emailField.current?.value.toLowerCase() as string;
     const userPassword = passwordField.current?.value as string;
 
-    if( !form.current?.reportValidity() ) {
+    if (!form.current?.reportValidity()) {
       return;
     }
 
@@ -62,7 +64,6 @@ export function LoginForm(): JSX.Element {
     } catch {
       setErrorMessage('Пользователь с такой почтой уже существует');
     }
-    
   }
 
   return (
@@ -75,20 +76,44 @@ export function LoginForm(): JSX.Element {
             </div>
             <form ref={form} className="login_form" action="" method="get">
               <label htmlFor="email">Электронная почта</label>
-              <input ref={emailField} pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" className="login_form__email_input"id='email' type={'email'} required />
+              <input
+                ref={emailField}
+                pattern={EMAIL_PATTERN}
+                className="login_form__email_input"
+                id="email"
+                type={'email'}
+                required
+              />
               <label htmlFor="password">Пароль</label>
-              <input ref={passwordField} className="login_form__password_input" id='password' type={'password'} minLength={6} required />
-              
-              <button className="login_form__submit" type="submit" onClick={ isRegistration? registration : UserLogin }>{isRegistration ? 'Зарегистрироваться' : 'Войти'}</button>
+              <input
+                ref={passwordField}
+                className="login_form__password_input"
+                id="password"
+                type={'password'}
+                minLength={6}
+                required
+              />
+
+              <button
+                className="login_form__submit"
+                type="submit"
+                onClick={isRegistration ? registration : UserLogin}
+              >
+                {isRegistration ? 'Зарегистрироваться' : 'Войти'}
+              </button>
               {errorMessage && <p>{errorMessage}</p>}
             </form>
           </div>
           <div className="login_text">
-            <p>{isRegistration ? 'Есть аккаунт?' : 'Нет аккаунта?'}<a href='/' className="login_text_span" onClick={changeForm}>{isRegistration ? ' Войти' : ' Зарегистрироваться'}</a></p>
+            <p>
+              {isRegistration ? 'Есть аккаунт?' : 'Нет аккаунта?'}
+              <a href="/" className="login_text_span" onClick={changeForm}>
+                {isRegistration ? ' Войти' : ' Зарегистрироваться'}
+              </a>
+            </p>
           </div>
         </div>
       </section>
     </main>
   );
 }
-

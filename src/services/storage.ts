@@ -1,4 +1,4 @@
-import { UserData } from "../types/user-data";
+import { UserData } from '../types/user-data';
 
 class Storage {
   #storage;
@@ -7,16 +7,16 @@ class Storage {
     this.#storage = localStorage;
   }
 
-  getUser = (email: string, password: string) : UserData => {
+  getUser = (email: string, password: string): UserData => {
     const data = this.#storage.getItem(email);
     const user = data ? JSON.parse(data) : null;
 
-    if ( !user || user.password !== password) {
+    if (!user || user.password !== password) {
       throw new Error();
     }
-    
+
     return user;
-  }
+  };
 
   setUser = (userData: UserData) => {
     const data = this.#storage.getItem(userData.email);
@@ -27,11 +27,11 @@ class Storage {
     }
 
     this.#storage.setItem(userData.email, JSON.stringify(userData));
-  }
+  };
 
   updateUser = (userData: UserData) => {
     this.#storage.setItem(userData.email, JSON.stringify(userData));
-  }
+  };
 }
 
 export default new Storage();

@@ -4,7 +4,7 @@ import FilmPage from '../film-page/film-page';
 import { LoginForm } from '../login-form/login-form';
 import MainLayout from '../main-layout/main-layout';
 import MainPage from '../main-page/main-page';
-import {PrivateRoute} from '../private-route/private-route';
+import { PrivateRoute } from '../private-route/private-route';
 import UserFilmsPage from '../user-films-page/user-films-page';
 
 function App(): JSX.Element {

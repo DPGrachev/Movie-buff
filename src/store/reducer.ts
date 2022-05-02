@@ -2,7 +2,18 @@ import { createReducer } from '@reduxjs/toolkit';
 import { ContentType } from '../const';
 import storage from '../services/storage';
 import { State } from '../types/state';
-import { login, logout, setContentType, setCurrentFilm, setFilms, setMaxPageNumber, setUserFilms, updateFilms, updateUser, updateUserFilms } from './actions';
+import {
+  login,
+  logout,
+  setContentType,
+  setCurrentFilm,
+  setFilms,
+  setMaxPageNumber,
+  setUserFilms,
+  updateFilms,
+  updateUser,
+  updateUserFilms,
+} from './actions';
 
 const initialState: State = {
   films: [],
@@ -48,7 +59,7 @@ const rootReducer = createReducer(initialState, (builder) => {
     .addCase(updateUser, (state, action) => {
       storage.updateUser(action.payload.user);
       state.user = action.payload.user;
-    })
+    });
 });
 
 export { rootReducer };
