@@ -20,7 +20,7 @@ function formateDuration(duration: string | number) {
   return `${Math.floor(duration / 60)}ч ${duration % 60}мин`;
 }
 
-function FilmCard({ film }: Props): JSX.Element {
+export function FilmCard({ film }: Props): JSX.Element {
   const { nameRu, year, posterUrl, rating, filmLength, genres, filmId } = film;
   const countries = film.countries.map((elem) => elem.country).join(' ');
   const duration = filmLength ? formateDuration(filmLength) : '';
@@ -94,5 +94,3 @@ function FilmCard({ film }: Props): JSX.Element {
     </article>
   );
 }
-
-export default FilmCard;

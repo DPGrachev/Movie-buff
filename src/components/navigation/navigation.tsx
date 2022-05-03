@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { AppRoutes, ContentType } from '../../const';
-import NavigationItem from '../navigation-item/navigation-item';
+import {NavigationItem} from '../navigation-item/navigation-item';
 
-function Navigation(): JSX.Element {
+export function Navigation(): JSX.Element {
   const navigationItems = Object.values(ContentType).map((item) => (
     <NavigationItem key={item} name={item} />
   ));
@@ -16,5 +16,3 @@ function Navigation(): JSX.Element {
     </nav>
   );
 }
-
-export default Navigation;

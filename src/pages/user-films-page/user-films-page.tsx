@@ -1,13 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { UserFavouritesType } from '../../types/user-data';
-import Navigation from '../navigation/navigation';
-import UserFilmsBoard from '../user-films-board/user-films-board';
+import {Navigation, UserFilmsBoard} from '../../components';
 
 type Params = {
   type: UserFavouritesType;
 };
 
-function UserFilmsPage(): JSX.Element {
+export function UserFilmsPage(): JSX.Element {
   const param = useParams<Params>();
   console.log(param.type);
 
@@ -20,5 +19,3 @@ function UserFilmsPage(): JSX.Element {
     </main>
   );
 }
-
-export default UserFilmsPage;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import FilmCard from '../film-card/film-card';
+import {FilmCard} from '../film-card/film-card';
 import { useSelector } from 'react-redux';
 import { getUser, getUserFilms } from '../../store/selectors';
 import { fetchUserFilmsAction } from '../../store/api-actions';
@@ -13,7 +13,7 @@ type Props = {
   type: UserFavouritesType;
 };
 
-function UserFilmsBoard({ type }: Props): JSX.Element {
+export function UserFilmsBoard({ type }: Props): JSX.Element {
   const user = useSelector(getUser);
   const films = useSelector(getUserFilms);
   const dispatch = useAppDispatch();
@@ -59,5 +59,3 @@ function UserFilmsBoard({ type }: Props): JSX.Element {
     </section>
   );
 }
-
-export default UserFilmsBoard;

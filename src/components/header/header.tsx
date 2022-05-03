@@ -5,7 +5,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { logout } from '../../store/actions';
 import { getLoginStatus, getUser } from '../../store/selectors';
 
-function Header(): JSX.Element {
+export function Header(): JSX.Element {
   const isLogin = useSelector(getLoginStatus);
   const user = useSelector(getUser);
   const dispatch = useAppDispatch();
@@ -46,5 +46,3 @@ function Header(): JSX.Element {
     </header>
   );
 }
-
-export default Header;

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { fetchCurrentFilmAction } from '../../store/api-actions';
 import { getCurrentFilm } from '../../store/selectors';
-import Navigation from '../navigation/navigation';
+import {Navigation} from '../../components';
 
 type Params = {
   id: string;
@@ -14,7 +14,7 @@ function formateDuration(duration: number) {
   return `${Math.floor(duration / 60)}ч ${duration % 60}мин`;
 }
 
-function FilmPage(): JSX.Element {
+export function FilmPage(): JSX.Element {
   const params = useParams<Params>();
   const dispatch = useAppDispatch();
   const currentFilm = useSelector(getCurrentFilm);
@@ -128,5 +128,3 @@ function FilmPage(): JSX.Element {
     </main>
   );
 }
-
-export default FilmPage;

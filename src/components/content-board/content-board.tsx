@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import FilmCard from '../film-card/film-card';
+import {FilmCard} from '../film-card/film-card';
 import { useSelector } from 'react-redux';
 import { getFilms, getMaxPageNumber } from '../../store/selectors';
 import { fetchStartPageOfFilmsAction, fetchOtherPageOfFilmsAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 
-function ContentBoard(): JSX.Element {
+export function ContentBoard(): JSX.Element {
   const filmCards = useSelector(getFilms);
   const maxPageNumber = useSelector(getMaxPageNumber);
   const dispatch = useAppDispatch();
@@ -39,5 +39,3 @@ function ContentBoard(): JSX.Element {
     </section>
   );
 }
-
-export default ContentBoard;

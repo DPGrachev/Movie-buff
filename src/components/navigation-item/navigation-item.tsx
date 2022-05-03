@@ -10,7 +10,7 @@ type Props = {
   name: ContentType;
 };
 
-function NavigationItem({ name }: Props): JSX.Element {
+export function NavigationItem({ name }: Props): JSX.Element {
   const dispatch = useAppDispatch();
   const currentContentType = useSelector(getContentType);
   const user = useSelector(getUser);
@@ -68,5 +68,3 @@ function NavigationItem({ name }: Props): JSX.Element {
     </Link>
   );
 }
-
-export default NavigationItem;

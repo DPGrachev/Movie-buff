@@ -68,6 +68,13 @@ body {
   width: 100%;
 }
 
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .hide-overflow {
   overflow: hidden;
 }
@@ -1064,7 +1071,8 @@ button {
 
 .search-container {
   padding-top: 30px;
-  padding-bottom: 100px;
+  padding-bottom: 30px;
+  margin-bottom: auto;
   display: grid;
   grid-template-columns: 20% 20% 30%;
   justify-content: space-between;
