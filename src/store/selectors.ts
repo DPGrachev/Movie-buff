@@ -1,10 +1,12 @@
 import { ContentType } from '../const';
 import { FilmInfo } from '../types/film';
-import { State } from '../types/state';
+import { FoundFilms, State } from '../types/state';
 
 export const getFilms = (state: State): FilmInfo[] => state.films;
 
 export const getUserFilms = (state: State): FilmInfo[] => state.userFilms;
+
+export const getFoundFilms = (state: State): FoundFilms => state.foundFilms;
 
 export const getContentType = (state: State): ContentType => state.contentType;
 

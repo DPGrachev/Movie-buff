@@ -23,7 +23,7 @@ function formateDuration(duration: string | number) {
 function FilmCard({ film }: Props): JSX.Element {
   const { nameRu, year, posterUrl, rating, filmLength, genres, filmId } = film;
   const countries = film.countries.map((elem) => elem.country).join(' ');
-  const duration = formateDuration(filmLength);
+  const duration = filmLength ? formateDuration(filmLength) : '';
   const user = useSelector(getUser);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

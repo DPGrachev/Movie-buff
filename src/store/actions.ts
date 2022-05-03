@@ -2,6 +2,7 @@ import { ActionType, ContentType } from '../const';
 import { createAction } from '@reduxjs/toolkit';
 import { FilmInfo } from '../types/film';
 import { UserData } from '../types/user-data';
+import { FoundFilms } from '../types/state';
 
 const setFilms = createAction(ActionType.setFilms, (films: FilmInfo[]) => ({
   payload: {
@@ -14,6 +15,14 @@ const setUserFilms = createAction(ActionType.setUserFilms, (films: FilmInfo[]) =
     films,
   },
 }));
+
+const setFoundFilms = createAction(ActionType.setFoundFilms, (films: FoundFilms) => ({
+  payload: {
+    films,
+  },
+}));
+
+const clearFoundFilms = createAction(ActionType.clearFoundFilms);
 
 const updateUserFilms = createAction(ActionType.updateUserFilms, (film: FilmInfo) => ({
   payload: {
@@ -61,6 +70,8 @@ const updateUser = createAction(ActionType.updateUser, (user: UserData) => ({
 
 export {
   setFilms,
+  setFoundFilms,
+  clearFoundFilms,
   setContentType,
   updateFilms,
   setMaxPageNumber,

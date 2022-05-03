@@ -3,11 +3,14 @@ export const enum AppRoutes {
   Login = '/login',
   FilmPage = '/film/:id',
   UserFilms = '/userFilms/:type',
+  Search = '/search',
 }
 
 export const enum ActionType {
   setFilms = 'set-films',
   setUserFilms = 'set-user-films',
+  setFoundFilms = 'set-found-films',
+  clearFoundFilms = 'clear-found-films',
   updateUserFilms = 'update-user-films',
   setContentType = 'navigation/set-content-type',
   updateFilms = 'update-films',

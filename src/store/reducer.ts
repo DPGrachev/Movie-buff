@@ -3,11 +3,13 @@ import { ContentType } from '../const';
 import storage from '../services/storage';
 import { State } from '../types/state';
 import {
+  clearFoundFilms,
   login,
   logout,
   setContentType,
   setCurrentFilm,
   setFilms,
+  setFoundFilms,
   setMaxPageNumber,
   setUserFilms,
   updateFilms,
@@ -18,6 +20,11 @@ import {
 const initialState: State = {
   films: [],
   userFilms: [],
+  foundFilms: {
+    total: 0,
+    totalPages: 0,
+    items: [],
+  },
   contentType: ContentType.topFilms,
   maxPageNumber: 0,
   currentFilm: null,
@@ -29,6 +36,12 @@ const rootReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(setFilms, (state, action) => {
       state.films = action.payload.films;
+    })
+    .addCase(setFoundFilms, (state, action) => {
+      state.foundFilms = action.payload.films;
+    })
+    .addCase(clearFoundFilms, (state) => {
+      state.foundFilms = initialState.foundFilms;
     })
     .addCase(setUserFilms, (state, action) => {
       state.userFilms = action.payload.films;

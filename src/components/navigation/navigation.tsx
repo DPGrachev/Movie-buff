@@ -1,4 +1,5 @@
-import { ContentType } from '../../const';
+import { Link } from 'react-router-dom';
+import { AppRoutes, ContentType } from '../../const';
 import NavigationItem from '../navigation-item/navigation-item';
 
 function Navigation(): JSX.Element {
@@ -9,9 +10,9 @@ function Navigation(): JSX.Element {
   return (
     <nav className="main-navigation">
       <div className="main-navigation__items">{navigationItems}</div>
-      <a href="#stats" className="main-navigation__additional">
+      <Link to={AppRoutes.Search} className="main-navigation__additional">
         Поиск фильмов
-      </a>
+      </Link>
     </nav>
   );
 }

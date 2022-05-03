@@ -6,7 +6,7 @@ import { UserData } from '../../types/user-data';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '../../const';
 
-const EMAIL_PATTERN = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
+const EMAIL_PATTERN = '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
 
 export function LoginForm(): JSX.Element {
   const [isRegistration, setIsRegistration] = useState(false);

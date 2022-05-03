@@ -5,6 +5,7 @@ import { LoginForm } from '../login-form/login-form';
 import MainLayout from '../main-layout/main-layout';
 import MainPage from '../main-page/main-page';
 import { PrivateRoute } from '../private-route/private-route';
+import Search from '../search/search';
 import UserFilmsPage from '../user-films-page/user-films-page';
 
 function App(): JSX.Element {
@@ -14,6 +15,7 @@ function App(): JSX.Element {
         <Route index element={<MainPage />} />
         <Route path={AppRoutes.Login} element={<LoginForm />} />
         <Route path={AppRoutes.FilmPage} element={<FilmPage />} />
+        <Route path={AppRoutes.Search} element={<Search />} />
         <Route path={AppRoutes.UserFilms} element={<PrivateRoute />}>
           <Route index element={<UserFilmsPage />} />
         </Route>
