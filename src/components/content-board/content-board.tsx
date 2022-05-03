@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {FilmCard} from '../film-card/film-card';
+import { FilmCard } from '../film-card/film-card';
 import { useSelector } from 'react-redux';
 import { getFilms, getMaxPageNumber } from '../../store/selectors';
 import { fetchStartPageOfFilmsAction, fetchOtherPageOfFilmsAction } from '../../store/api-actions';

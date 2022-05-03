@@ -2,14 +2,16 @@ import Slider from 'rc-slider';
 import { handleRender } from './slider';
 import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, useState } from 'react';
+import { AppRoutes } from '../../const';
+import { QueryParams } from '../../types/search';
+import { concatParams } from '../../utils';
+import { useSelector } from 'react-redux';
+import { getUser } from '../../store/selectors';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { updateUser } from '../../store/actions';
 
-type QueryParams = {
-  ratingFrom: string | null;
-  ratingTo: string | null;
-  yearFrom: string | null;
-  yearTo: string | null;
-  keyword: string;
-  page: string;
+type Props = {
+  resetForm: (status: boolean) => void;
 };
 
 const defaultParams: QueryParams = {
@@ -21,18 +23,12 @@ const defaultParams: QueryParams = {
   page: '1',
 };
 
-function concatParams(params: QueryParams) {
-  return Object.entries(params).reduce((acc, [param, value]) => {
-    if (value) {
-      return acc + `${param}=${value}&`;
-    }
-    return acc;
-  }, '');
-}
-
-export function SearchFilters(): JSX.Element {
+export function SearchFilters({ resetForm }: Props): JSX.Element {
   const navigate = useNavigate();
   const urlParams = new URLSearchParams(window.location.search);
+  const user = useSelector(getUser);
+  const dispatch = useAppDispatch();
+
   const [queryParams, setQueryParams] = useState<QueryParams>({
     ratingFrom: urlParams.get('ratingFrom') || defaultParams.ratingFrom,
     ratingTo: urlParams.get('ratingTo') || defaultParams.ratingTo,
@@ -75,7 +71,22 @@ export function SearchFilters(): JSX.Element {
   }
 
   function onFindButtonClick() {
+    resetForm(false);
+    if (user) {
+      dispatch(
+        updateUser({
+          ...user,
+          searchHistory: user.searchHistory
+            ? user.searchHistory.concat(queryParams)
+            : [queryParams],
+        }),
+      );
+    }
     navigate(encodeURI(`?${concatParams(queryParams)}`));
+  }
+
+  function onSearchHistoryButtonClick() {
+    navigate(AppRoutes.SearchHistory);
   }
 
   return (
@@ -128,6 +139,9 @@ export function SearchFilters(): JSX.Element {
       </div>
       <button className="search-find-button" onClick={onFindButtonClick}>
         Найти
+      </button>
+      <button className="search-find-button" onClick={onSearchHistoryButtonClick}>
+        История поиска
       </button>
     </section>
   );

@@ -1,4 +1,4 @@
-import {Navigation, SearchContentBoard, SearchFilters} from '../../components'
+import { Navigation, SearchContentBoard, SearchFilters } from '../../components';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
@@ -33,7 +33,7 @@ export function SearchPage(): JSX.Element {
   return (
     <main className="main">
       <Navigation />
-      <SearchFilters />
+      <SearchFilters resetForm={setIsLoaded} />
       {isLoaded && <SearchContentBoard films={foundFilms} />}
     </main>
   );

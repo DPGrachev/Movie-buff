@@ -1,4 +1,4 @@
-import {FilmCard} from '../film-card/film-card';
+import { FilmCard } from '../film-card/film-card';
 import type { FoundFilms } from '../../types/state';
 
 type Props = {

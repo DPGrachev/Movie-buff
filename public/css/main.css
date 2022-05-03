@@ -129,6 +129,24 @@ button {
   justify-content: center;
 }
 
+.search-history-item {
+  height: 40px;
+  border: 1px solid blue;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.search-history-item:hover {
+  border-color:yellow;
+}
+
+.search-history-title {
+  text-align: center;
+}
+
 .search__film-icon {
   position: absolute;
   top: 16px;

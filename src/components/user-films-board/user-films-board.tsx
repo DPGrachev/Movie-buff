@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {FilmCard} from '../film-card/film-card';
+import { FilmCard } from '../film-card/film-card';
 import { useSelector } from 'react-redux';
 import { getUser, getUserFilms } from '../../store/selectors';
 import { fetchUserFilmsAction } from '../../store/api-actions';

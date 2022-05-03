@@ -4,6 +4,7 @@ export const enum AppRoutes {
   FilmPage = '/film/:id',
   UserFilms = '/userFilms/:type',
   Search = '/search',
+  SearchHistory = '/search/history',
 }
 
 export const enum ActionType {

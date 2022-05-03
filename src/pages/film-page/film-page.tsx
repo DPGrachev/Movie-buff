@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { fetchCurrentFilmAction } from '../../store/api-actions';
 import { getCurrentFilm } from '../../store/selectors';
-import {Navigation} from '../../components';
+import { Navigation } from '../../components';
 
 type Params = {
   id: string;

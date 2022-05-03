@@ -1,7 +1,14 @@
 import { Routes, Route } from 'react-router-dom';
 import { AppRoutes } from './const';
 import { PrivateRoute, MainLayout } from './components';
-import {LoginPage, FilmPage, SearchPage, MainPage, UserFilmsPage} from './pages'
+import {
+  LoginPage,
+  FilmPage,
+  SearchPage,
+  MainPage,
+  UserFilmsPage,
+  SearchHistoryPage,
+} from './pages';
 
 function App(): JSX.Element {
   return (
@@ -13,6 +20,9 @@ function App(): JSX.Element {
         <Route path={AppRoutes.Search} element={<SearchPage />} />
         <Route path={AppRoutes.UserFilms} element={<PrivateRoute />}>
           <Route index element={<UserFilmsPage />} />
+        </Route>
+        <Route path={AppRoutes.SearchHistory} element={<PrivateRoute />}>
+          <Route index element={<SearchHistoryPage />} />
         </Route>
       </Route>
     </Routes>

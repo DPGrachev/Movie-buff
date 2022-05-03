@@ -54,6 +54,7 @@ export function LoginPage(): JSX.Element {
       const userData: UserData = {
         email: userEmail,
         password: userPassword,
+        searchHistory: [],
         favorites: [],
         history: [],
         watchlist: [],

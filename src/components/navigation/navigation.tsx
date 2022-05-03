@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { AppRoutes, ContentType } from '../../const';
-import {NavigationItem} from '../navigation-item/navigation-item';
+import { NavigationItem } from '../navigation-item/navigation-item';
 
 export function Navigation(): JSX.Element {
   const navigationItems = Object.values(ContentType).map((item) => (

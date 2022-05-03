@@ -1,4 +1,4 @@
-import {ContentBoard, Navigation} from '../../components';
+import { ContentBoard, Navigation } from '../../components';
 
 export function MainPage(): JSX.Element {
   return (

@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { UserFavouritesType } from '../../types/user-data';
-import {Navigation, UserFilmsBoard} from '../../components';
+import { Navigation, UserFilmsBoard } from '../../components';
 
 type Params = {
   type: UserFavouritesType;
