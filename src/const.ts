@@ -3,19 +3,8 @@ export const enum AppRoutes {
   Login = '/login',
   FilmPage = '/film/:id',
   UserFilms = '/userFilms/:type',
-}
-
-export const enum ActionType {
-  setFilms = 'set-films',
-  setUserFilms = 'set-user-films',
-  updateUserFilms = 'update-user-films',
-  setContentType = 'navigation/set-content-type',
-  updateFilms = 'update-films',
-  setMaxPageNumber = 'set-max-page-number',
-  setCurrentFilm = 'set-current-film',
-  login = 'login-form/login',
-  logout = 'login-form/logout',
-  updateUser = 'update-user',
+  Search = '/search',
+  SearchHistory = '/search/history',
 }
 
 export enum ContentType {

@@ -1,43 +1,30 @@
-import { useEffect, useState } from 'react';
-import FilmCard from '../film-card/film-card';
-import { useSelector } from 'react-redux';
-import { getFilms, getMaxPageNumber } from '../../store/selectors';
-import { fetchStartPageOfFilmsAction, fetchOtherPageOfFilmsAction } from '../../store/api-actions';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useState } from 'react';
+import { FilmCard } from '../film-card/film-card';
+import { useGetTopFilmsQuery } from '../../store/api';
+import { Pagination } from '../pagination/pagination';
 
-function ContentBoard(): JSX.Element {
-  const filmCards = useSelector(getFilms);
-  const maxPageNumber = useSelector(getMaxPageNumber);
-  const dispatch = useAppDispatch();
+export function ContentBoard(): JSX.Element {
   const [currentPageCount, setCurrentPageCount] = useState(1);
+  const { data, isLoading } = useGetTopFilmsQuery(currentPageCount);
 
-  const preparedFilmCards = filmCards.map((film) => <FilmCard film={film} key={film.filmId} />);
-
-  useEffect(() => {
-    if (currentPageCount === 1) {
-      dispatch(fetchStartPageOfFilmsAction());
-    } else {
-      dispatch(fetchOtherPageOfFilmsAction(currentPageCount));
-    }
-  }, [currentPageCount, dispatch]);
-
-  function onShowMoreButtonClick() {
-    setCurrentPageCount(currentPageCount + 1);
-  }
+  const preparedFilmCards = data?.films.map((film) => <FilmCard film={film} key={film.filmId} />);
 
   return (
     <section className="films-list">
+      {isLoading && <h1>...Загрузка</h1>}
+      <Pagination
+        maxPagesNumber={data?.pagesCount as number}
+        currentPageNumber={currentPageCount}
+        setPageNumber={setCurrentPageCount}
+      />
       <div className="films-list__container">
-        {preparedFilmCards.length > 0 && preparedFilmCards}
+        {preparedFilmCards && preparedFilmCards.length > 0 && preparedFilmCards}
       </div>
-
-      {currentPageCount !== maxPageNumber && (
-        <button className="films-list__show-more" onClick={onShowMoreButtonClick}>
-          Показать больше
-        </button>
-      )}
+      <Pagination
+        maxPagesNumber={data?.pagesCount as number}
+        currentPageNumber={currentPageCount}
+        setPageNumber={setCurrentPageCount}
+      />
     </section>
   );
 }
-
-export default ContentBoard;

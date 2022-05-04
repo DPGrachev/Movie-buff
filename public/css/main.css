@@ -68,6 +68,13 @@ body {
   width: 100%;
 }
 
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .hide-overflow {
   overflow: hidden;
 }
@@ -120,6 +127,24 @@ button {
   position: relative;
   display: flex;
   justify-content: center;
+}
+
+.search-history-item {
+  height: 40px;
+  border: 1px solid blue;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.search-history-item:hover {
+  border-color:yellow;
+}
+
+.search-history-title {
+  text-align: center;
 }
 
 .search__film-icon {
@@ -213,6 +238,46 @@ button {
 .search__field:focus ~ .search__reset::before,
 .search__field:focus ~ .search__reset::after {
   background-color: #ffe800;
+}
+
+.pagination {
+  width: 100%;
+  grid-area: pagination;
+}
+
+.pagination__list {
+  display: flex;
+  justify-content: flex-end;
+  margin: 5px 19px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination__page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 25px;
+  height: 25px;
+  margin-left: 10px;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: .05em;
+  border: 1px solid;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.pagination__page:hover {
+  background-color: yellow;
+  color: blue;
+}
+
+.pagination__page--active {
+  color: #fff;
+  border-radius: 2px;
+  background-color: #0f0466;
+  pointer-events: none;
 }
 
 .profile {
@@ -1062,10 +1127,39 @@ button {
   background-color: #ffe800;
 }
 
-.statistic {
+.search-container {
   padding-top: 30px;
-  padding-bottom: 100px;
+  padding-bottom: 30px;
+  margin-bottom: auto;
+  display: grid;
+  grid-template-columns: 20% 20% 30%;
+  justify-content: space-between;
 }
+
+.search_name_input {
+  width: 100%;
+  text-align: end;
+}
+
+.search-find-button {
+  margin-top: 40px;
+  grid-column-start: 1;
+  grid-column-end: 4;
+  background-color: #140881;
+  color: yellow;
+  border: none;
+  box-shadow: 0 0 5px yellow;
+}
+
+.search-find-button:hover {
+  background-color: yellow;
+  color: #140881;
+}
+
+.search_label_params {
+  text-align: center;
+}
+
 .statistic__rank {
   display: flex;
   align-items: center;

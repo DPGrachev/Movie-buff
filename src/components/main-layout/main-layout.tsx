@@ -1,15 +1,16 @@
 import { Outlet } from 'react-router-dom';
-import Footer from '../footer/footer';
-import Header from '../header/header';
+import { ErrorBoundary } from '../error-boundary/error-boundary';
+import { Footer } from '../footer/footer';
+import { Header } from '../header/header';
 
-function MainLayout(): JSX.Element {
+export function MainLayout(): JSX.Element {
   return (
     <>
       <Header />
-      <Outlet />
+      <ErrorBoundary>
+        <Outlet />
+      </ErrorBoundary>
       <Footer />
     </>
   );
 }
-
-export default MainLayout;

@@ -1,14 +1,14 @@
 import { MouseEvent, useRef, useState } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { login } from '../../store/actions';
 import storage from '../../services/storage';
 import { UserData } from '../../types/user-data';
 import { useNavigate } from 'react-router-dom';
+import { login } from '../../store/user-data/user-data';
 import { AppRoutes } from '../../const';
 
-const EMAIL_PATTERN = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
+const EMAIL_PATTERN = '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
 
-export function LoginForm(): JSX.Element {
+export function LoginPage(): JSX.Element {
   const [isRegistration, setIsRegistration] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const form = useRef<HTMLFormElement>(null);
@@ -23,6 +23,14 @@ export function LoginForm(): JSX.Element {
     setErrorMessage('');
   }
 
+  function navigateAfterLogin() {
+    if (window.history.state && window.history.state.idx > 1) {
+      navigate(-2);
+    } else {
+      navigate(AppRoutes.Main);
+    }
+  }
+
   function UserLogin(evt: MouseEvent) {
     evt.preventDefault();
     const userEmail = emailField.current?.value.toLowerCase() as string;
@@ -35,7 +43,7 @@ export function LoginForm(): JSX.Element {
     try {
       const user = storage.getUser(userEmail, userPassword);
       dispatch(login(user));
-      navigate(AppRoutes.Main);
+      navigateAfterLogin();
     } catch {
       setErrorMessage('Неверная почта или пароль');
     }
@@ -54,13 +62,14 @@ export function LoginForm(): JSX.Element {
       const userData: UserData = {
         email: userEmail,
         password: userPassword,
+        searchHistory: [],
         favorites: [],
         history: [],
         watchlist: [],
       };
       storage.setUser(userData);
       dispatch(login(userData));
-      navigate(AppRoutes.Main);
+      navigateAfterLogin();
     } catch {
       setErrorMessage('Пользователь с такой почтой уже существует');
     }

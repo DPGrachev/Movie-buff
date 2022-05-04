@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoutes } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { updateUser } from '../../store/actions';
+// import { updateUser } from '../../store/actions';
 import { getUser } from '../../store/selectors';
+import { updateUser } from '../../store/user-data/user-data';
 import { FilmInfo } from '../../types/film';
 import { UserData, UserFavouritesType } from '../../types/user-data';
 
@@ -20,10 +21,10 @@ function formateDuration(duration: string | number) {
   return `${Math.floor(duration / 60)}ч ${duration % 60}мин`;
 }
 
-function FilmCard({ film }: Props): JSX.Element {
+export function FilmCard({ film }: Props): JSX.Element {
   const { nameRu, year, posterUrl, rating, filmLength, genres, filmId } = film;
   const countries = film.countries.map((elem) => elem.country).join(' ');
-  const duration = formateDuration(filmLength);
+  const duration = filmLength ? formateDuration(filmLength) : '';
   const user = useSelector(getUser);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -94,5 +95,3 @@ function FilmCard({ film }: Props): JSX.Element {
     </article>
   );
 }
-
-export default FilmCard;

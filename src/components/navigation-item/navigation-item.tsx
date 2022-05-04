@@ -3,14 +3,15 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoutes, ContentType } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { setContentType } from '../../store/actions';
+// import { setContentType } from '../../store/actions';
 import { getContentType, getUser } from '../../store/selectors';
+import { setContentType } from '../../store/user-data/user-data';
 
 type Props = {
   name: ContentType;
 };
 
-function NavigationItem({ name }: Props): JSX.Element {
+export function NavigationItem({ name }: Props): JSX.Element {
   const dispatch = useAppDispatch();
   const currentContentType = useSelector(getContentType);
   const user = useSelector(getUser);
@@ -68,5 +69,3 @@ function NavigationItem({ name }: Props): JSX.Element {
     </Link>
   );
 }
-
-export default NavigationItem;
