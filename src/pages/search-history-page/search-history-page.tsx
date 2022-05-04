@@ -11,9 +11,13 @@ export function SearchHistoryPage(): JSX.Element {
   const navigate = useNavigate();
 
   const preparedHistory = () =>
-    user?.searchHistory.map((params) => (
-      <div className="search-history-item" onClick={() => onHistoryItemClick(params)}>
-        <span>Название: {params.keyword}</span>
+    user?.searchHistory.map((params, i) => (
+      <div
+        key={params.keyword + i}
+        className="search-history-item"
+        onClick={() => onHistoryItemClick(params)}
+      >
+        <span>Название: {decodeURI(params.keyword)}</span>
         <span>
           Рейтинг от {params.ratingFrom} до {params.ratingTo}
         </span>

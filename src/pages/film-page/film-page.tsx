@@ -1,10 +1,6 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { fetchCurrentFilmAction } from '../../store/api-actions';
-import { getCurrentFilm } from '../../store/selectors';
 import { Navigation } from '../../components';
+import { useGetCurrentFilmQuery } from '../../store/api';
 
 type Params = {
   id: string;
@@ -16,9 +12,8 @@ function formateDuration(duration: number) {
 
 export function FilmPage(): JSX.Element {
   const params = useParams<Params>();
-  const dispatch = useAppDispatch();
-  const currentFilm = useSelector(getCurrentFilm);
-
+  const { data, isLoading } = useGetCurrentFilmQuery(params.id as string);
+  const currentFilm = data;
   const duration = currentFilm ? formateDuration(currentFilm.filmLength as number) : 0;
   const countries = currentFilm?.countries.map((country) => (
     <span key={country.country} className="film-details__genre">
@@ -32,16 +27,10 @@ export function FilmPage(): JSX.Element {
   ));
   const isCurrentFilm = currentFilm && currentFilm.filmId === Number(params.id) ? true : false;
 
-  useEffect(() => {
-    if (!currentFilm || currentFilm.filmId !== Number(params.id)) {
-      dispatch(fetchCurrentFilmAction(params.id as string));
-    }
-  }, [params.id, currentFilm, dispatch]);
-
   return (
     <main className="main">
       <Navigation />
-      {!isCurrentFilm && <h1>Загрузка...</h1>}
+      {isLoading && <h1>Загрузка...</h1>}
       {isCurrentFilm && (
         <section>
           <div className="film-details__top-container">

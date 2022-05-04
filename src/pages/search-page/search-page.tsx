@@ -1,40 +1,52 @@
 import { Navigation, SearchContentBoard, SearchFilters } from '../../components';
 import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useSelector } from 'react-redux';
-import { getFoundFilms } from '../../store/selectors';
-import { fetchSearchedFilmsAction } from '../../store/api-actions';
-import { clearFoundFilms } from '../../store/actions';
+import { createContext, useState } from 'react';
+import { QueryParams } from '../../types/search';
+
+const defaultParams: QueryParams = {
+  ratingFrom: '1',
+  ratingTo: '10',
+  yearFrom: '1970',
+  yearTo: '2022',
+  keyword: 'Гарри Поттер',
+  page: '1',
+};
+
+type Context = {
+  params: QueryParams;
+  changeParams?: (params: QueryParams) => void;
+};
+
+export const QueryContext = createContext<Context>({ params: defaultParams });
 
 export function SearchPage(): JSX.Element {
   const location = useLocation();
-  const foundFilms = useSelector(getFoundFilms);
-  const dispatch = useAppDispatch();
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    if (!location.search && foundFilms.total > 0) {
-      dispatch(clearFoundFilms());
-    }
+  const urlParams = new URLSearchParams(location.search);
+  const [queryParams, setQueryParams] = useState<QueryParams>({
+    ratingFrom: urlParams.get('ratingFrom') || defaultParams.ratingFrom,
+    ratingTo: urlParams.get('ratingTo') || defaultParams.ratingTo,
+    yearFrom: urlParams.get('yearFrom') || defaultParams.yearFrom,
+    yearTo: urlParams.get('yearTo') || defaultParams.yearTo,
+    keyword: urlParams.get('keyword') || '',
+    page: urlParams.get('page') || defaultParams.page,
   });
 
-  useEffect(() => {
-    if (!isLoaded && location.search) {
-      dispatch(fetchSearchedFilmsAction(location.search));
-      setIsLoaded(true);
-
-      return () => {
-        dispatch(clearFoundFilms());
-      };
-    }
-  }, [dispatch, isLoaded, location]);
+  function changeQuery(params: QueryParams) {
+    setQueryParams(params);
+  }
 
   return (
     <main className="main">
       <Navigation />
-      <SearchFilters resetForm={setIsLoaded} />
-      {isLoaded && <SearchContentBoard films={foundFilms} />}
+      <QueryContext.Provider
+        value={{
+          params: queryParams,
+          changeParams: changeQuery,
+        }}
+      >
+        <SearchFilters />
+        {location.search && <SearchContentBoard />}
+      </QueryContext.Provider>
     </main>
   );
 }

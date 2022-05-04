@@ -240,6 +240,46 @@ button {
   background-color: #ffe800;
 }
 
+.pagination {
+  width: 100%;
+  grid-area: pagination;
+}
+
+.pagination__list {
+  display: flex;
+  justify-content: flex-end;
+  margin: 5px 19px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination__page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 25px;
+  height: 25px;
+  margin-left: 10px;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: .05em;
+  border: 1px solid;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.pagination__page:hover {
+  background-color: yellow;
+  color: blue;
+}
+
+.pagination__page--active {
+  color: #fff;
+  border-radius: 2px;
+  background-color: #0f0466;
+  pointer-events: none;
+}
+
 .profile {
   display: flex;
   align-items: center;

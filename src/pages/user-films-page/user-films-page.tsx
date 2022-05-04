@@ -8,7 +8,6 @@ type Params = {
 
 export function UserFilmsPage(): JSX.Element {
   const param = useParams<Params>();
-  console.log(param.type);
 
   return (
     <main className="main">

@@ -1,42 +1,23 @@
 import Slider from 'rc-slider';
 import { handleRender } from './slider';
 import { useNavigate } from 'react-router-dom';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 import { AppRoutes } from '../../const';
 import { QueryParams } from '../../types/search';
 import { concatParams } from '../../utils';
 import { useSelector } from 'react-redux';
 import { getUser } from '../../store/selectors';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { updateUser } from '../../store/actions';
+import { updateUser } from '../../store/user-data/user-data';
+import { QueryContext } from '../../pages/search-page/search-page';
 
-type Props = {
-  resetForm: (status: boolean) => void;
-};
-
-const defaultParams: QueryParams = {
-  ratingFrom: '1',
-  ratingTo: '10',
-  yearFrom: '1970',
-  yearTo: '2022',
-  keyword: 'Гарри Поттер',
-  page: '1',
-};
-
-export function SearchFilters({ resetForm }: Props): JSX.Element {
+export function SearchFilters(): JSX.Element {
   const navigate = useNavigate();
-  const urlParams = new URLSearchParams(window.location.search);
   const user = useSelector(getUser);
   const dispatch = useAppDispatch();
+  const { params, changeParams } = useContext(QueryContext);
 
-  const [queryParams, setQueryParams] = useState<QueryParams>({
-    ratingFrom: urlParams.get('ratingFrom') || defaultParams.ratingFrom,
-    ratingTo: urlParams.get('ratingTo') || defaultParams.ratingTo,
-    yearFrom: urlParams.get('yearFrom') || defaultParams.yearFrom,
-    yearTo: urlParams.get('yearTo') || defaultParams.yearTo,
-    keyword: urlParams.get('keyword') || '',
-    page: urlParams.get('page') || defaultParams.page,
-  });
+  const [queryParams, setQueryParams] = useState<QueryParams>(params);
 
   function onRatingChange(value: number[] | number) {
     const values = value as number[];
@@ -71,7 +52,6 @@ export function SearchFilters({ resetForm }: Props): JSX.Element {
   }
 
   function onFindButtonClick() {
-    resetForm(false);
     if (user) {
       dispatch(
         updateUser({
@@ -82,6 +62,10 @@ export function SearchFilters({ resetForm }: Props): JSX.Element {
         }),
       );
     }
+    if (changeParams) {
+      changeParams(queryParams);
+    }
+
     navigate(encodeURI(`?${concatParams(queryParams)}`));
   }
 
@@ -94,11 +78,11 @@ export function SearchFilters({ resetForm }: Props): JSX.Element {
       <div className="search_rating">
         <p className="search_label_params">
           Рейтинг от
-          <span> {queryParams.ratingFrom || defaultParams.ratingFrom}</span> до
-          <span> {queryParams.ratingTo || defaultParams.ratingTo}</span>
+          <span> {queryParams.ratingFrom}</span> до
+          <span> {queryParams.ratingTo}</span>
         </p>
         <Slider
-          marks={{ '1': defaultParams.ratingFrom, '10': defaultParams.ratingTo }}
+          marks={{ '1': '1', '10': '10' }}
           min={1}
           max={10}
           step={1}
@@ -112,8 +96,8 @@ export function SearchFilters({ resetForm }: Props): JSX.Element {
       <div className="search_year">
         <p className="search_label_params">
           Год выхода от
-          <span> {queryParams.yearFrom || defaultParams.yearFrom}</span> до
-          <span> {queryParams.yearTo || defaultParams.yearTo}</span>
+          <span> {queryParams.yearFrom}</span> до
+          <span> {queryParams.yearTo}</span>
         </p>
         <Slider
           marks={{ '1970': '1970', '2022': '2022' }}

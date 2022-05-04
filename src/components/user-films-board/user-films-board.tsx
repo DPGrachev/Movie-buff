@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { FilmCard } from '../film-card/film-card';
 import { useSelector } from 'react-redux';
-import { getUser, getUserFilms } from '../../store/selectors';
-import { fetchUserFilmsAction } from '../../store/api-actions';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { setUserFilms } from '../../store/actions';
+import { getUser } from '../../store/selectors';
 import type { UserFavouritesType } from '../../types/user-data';
+import { useGetUserFilmsQuery } from '../../store/api';
+import { Pagination } from '../pagination/pagination';
 
 const PAGE_STEP = 5;
 
@@ -15,47 +14,35 @@ type Props = {
 
 export function UserFilmsBoard({ type }: Props): JSX.Element {
   const user = useSelector(getUser);
-  const films = useSelector(getUserFilms);
-  const dispatch = useAppDispatch();
-  const [filmsId, setFilmsId] = useState<number[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const filmsId = user ? user[type] : [];
   const filmsCount = filmsId.length;
 
-  useEffect(() => {
-    if (user) {
-      setFilmsId(user[type]);
-    }
-
-    return () => {
-      dispatch(setUserFilms([]));
-    };
-  }, [user, dispatch, type]);
+  const { data } = useGetUserFilmsQuery(
+    filmsId.slice(PAGE_STEP * (currentPage - 1), PAGE_STEP * currentPage),
+  );
 
   useEffect(() => {
-    if (user![type] === filmsId) {
-      filmsId.slice(PAGE_STEP * (currentPage - 1), PAGE_STEP * currentPage).forEach((id) => {
-        dispatch(fetchUserFilmsAction(id));
-      });
-    }
-  }, [filmsId, dispatch, user, currentPage, type]);
+    setCurrentPage(1);
+  }, [type]);
 
-  const preparedFilmCards = films.map((film) => <FilmCard film={film} key={film.filmId} />);
-
-  function onShowMoreButtonClick() {
-    setCurrentPage(currentPage + 1);
-  }
+  const preparedFilmCards = data?.map((film) => <FilmCard film={film} key={film.filmId} />);
 
   return (
     <section className="films-list">
       <div className="films-list__container">
-        {preparedFilmCards.length > 0 && preparedFilmCards}
+        {preparedFilmCards && preparedFilmCards.length ? (
+          preparedFilmCards
+        ) : (
+          <h1>Вы еще не добавили фильмы в эту категорию</h1>
+        )}
       </div>
 
-      {filmsCount > PAGE_STEP * currentPage && (
-        <button className="films-list__show-more" onClick={onShowMoreButtonClick}>
-          Показать больше
-        </button>
-      )}
+      <Pagination
+        currentPageNumber={currentPage}
+        maxPagesNumber={Math.ceil(filmsCount / PAGE_STEP)}
+        setPageNumber={setCurrentPage}
+      />
     </section>
   );
 }

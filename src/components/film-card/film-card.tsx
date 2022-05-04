@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoutes } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { updateUser } from '../../store/actions';
+// import { updateUser } from '../../store/actions';
 import { getUser } from '../../store/selectors';
+import { updateUser } from '../../store/user-data/user-data';
 import { FilmInfo } from '../../types/film';
 import { UserData, UserFavouritesType } from '../../types/user-data';
 

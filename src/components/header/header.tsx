@@ -2,8 +2,9 @@ import { MouseEvent } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { logout } from '../../store/actions';
+// import { logout } from '../../store/actions';
 import { getLoginStatus, getUser } from '../../store/selectors';
+import { logout } from '../../store/user-data/user-data';
 
 export function Header(): JSX.Element {
   const isLogin = useSelector(getLoginStatus);

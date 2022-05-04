@@ -3,14 +3,13 @@ import { FilmInfo } from './film';
 import type { UserData } from './user-data';
 
 export type State = {
-  films: FilmInfo[];
-  userFilms: FilmInfo[];
-  foundFilms: FoundFilms;
-  contentType: ContentType;
-  maxPageNumber: number;
-  currentFilm: FilmInfo | null;
+  USER: UserState;
+};
+
+export type UserState = {
   isLogin: boolean;
   user: UserData | null;
+  contentType: ContentType;
 };
 
 export type FoundFilms = {
