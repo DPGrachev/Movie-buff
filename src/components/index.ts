@@ -5,7 +5,7 @@ import { Header } from './header/header';
 import { MainLayout } from './main-layout/main-layout';
 import { NavigationItem } from './navigation-item/navigation-item';
 import { Navigation } from './navigation/navigation';
-import { Pagination } from './pagination/pagination';
+import Pagination from './pagination/pagination';
 import { PrivateRoute } from './private-route/private-route';
 import { SearchContentBoard } from './search-content-board/search-content-board';
 import { SearchFilters } from './search-filters/search-filters';

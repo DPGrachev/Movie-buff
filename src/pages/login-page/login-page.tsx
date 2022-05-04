@@ -1,10 +1,10 @@
 import { MouseEvent, useRef, useState } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import storage from '../../services/storage';
 import { UserData } from '../../types/user-data';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../store/user-data/user-data';
+import { login, registration } from '../../store/user-data/user-data';
 import { AppRoutes } from '../../const';
+import { useEvent } from '../../hooks/useEvent';
 
 const EMAIL_PATTERN = '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
 
@@ -16,6 +16,12 @@ export function LoginPage(): JSX.Element {
   const passwordField = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEvent('keyDown', (evt) => {
+    if (evt.key === 'Enter') {
+      isRegistration ? onRegistrationButtonClick() : onLoginButtonClick();
+    }
+  });
 
   function changeForm(evt: MouseEvent) {
     evt.preventDefault();
@@ -31,8 +37,8 @@ export function LoginPage(): JSX.Element {
     }
   }
 
-  function UserLogin(evt: MouseEvent) {
-    evt.preventDefault();
+  function onLoginButtonClick() {
+    // evt.preventDefault();
     const userEmail = emailField.current?.value.toLowerCase() as string;
     const userPassword = passwordField.current?.value as string;
 
@@ -41,16 +47,15 @@ export function LoginPage(): JSX.Element {
     }
 
     try {
-      const user = storage.getUser(userEmail, userPassword);
-      dispatch(login(user));
+      dispatch(login({ userEmail, userPassword }));
       navigateAfterLogin();
     } catch {
       setErrorMessage('Неверная почта или пароль');
     }
   }
 
-  function registration(evt: MouseEvent) {
-    evt.preventDefault();
+  function onRegistrationButtonClick() {
+    // evt.preventDefault();
     const userEmail = emailField.current?.value.toLowerCase() as string;
     const userPassword = passwordField.current?.value as string;
 
@@ -67,8 +72,7 @@ export function LoginPage(): JSX.Element {
         history: [],
         watchlist: [],
       };
-      storage.setUser(userData);
-      dispatch(login(userData));
+      dispatch(registration(userData));
       navigateAfterLogin();
     } catch {
       setErrorMessage('Пользователь с такой почтой уже существует');
@@ -105,8 +109,8 @@ export function LoginPage(): JSX.Element {
 
               <button
                 className="login_form__submit"
-                type="submit"
-                onClick={isRegistration ? registration : UserLogin}
+                // type="submit"
+                onClick={isRegistration ? onRegistrationButtonClick : onLoginButtonClick}
               >
                 {isRegistration ? 'Зарегистрироваться' : 'Войти'}
               </button>

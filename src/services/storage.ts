@@ -10,7 +10,7 @@ class Storage {
   getUser = (email: string, password: string): UserData => {
     const data = this.#storage.getItem(email);
     const user = data ? JSON.parse(data) : null;
-
+    console.log(email);
     if (!user || user.password !== password) {
       throw new Error();
     }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 type Props = {
   currentPageNumber: number;
@@ -6,11 +7,7 @@ type Props = {
   setPageNumber: (page: number) => void;
 };
 
-export function Pagination({
-  currentPageNumber,
-  maxPagesNumber,
-  setPageNumber,
-}: Props): JSX.Element {
+function Pagination({ currentPageNumber, maxPagesNumber, setPageNumber }: Props): JSX.Element {
   const MAX_PAGE_BUTTONS_COUNT = 3;
 
   const [paginationSection, setPaginationSection] = useState(0);
@@ -98,3 +95,11 @@ export function Pagination({
     </div>
   );
 }
+
+Pagination.propTypes = {
+  currentPageNumber: PropTypes.number.isRequired,
+  maxPagesNumber: PropTypes.number.isRequired,
+  setPageNumber: PropTypes.func.isRequired,
+};
+
+export default Pagination;

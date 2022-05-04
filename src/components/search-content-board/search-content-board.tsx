@@ -3,7 +3,7 @@ import { useGetSearchedFilmsQuery } from '../../store/api';
 import { QueryContext } from '../../pages/search-page/search-page';
 import { useContext } from 'react';
 import { concatParams } from '../../utils';
-import { Pagination } from '../pagination/pagination';
+import Pagination from '../pagination/pagination';
 
 export function SearchContentBoard(): JSX.Element {
   const { params, changeParams } = useContext(QueryContext);

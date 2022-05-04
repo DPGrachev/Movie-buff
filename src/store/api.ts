@@ -42,7 +42,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_BACKEND_URL,
     prepareHeaders: (headers) => {
-      headers.set('X-API-KEY', '61bb7a97-7cb8-418b-a9e0-a9c0a84911b8');
+      headers.set('X-API-KEY', process.env.REACT_APP_API_KEY as string);
 
       return headers;
     },
