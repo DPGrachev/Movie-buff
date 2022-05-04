@@ -1,6 +1,13 @@
-import { useParams } from 'react-router-dom';
+import { MouseEvent } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Navigation } from '../../components';
+import { AppRoutes } from '../../const';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useGetCurrentFilmQuery } from '../../store/api';
+import { getUser } from '../../store/selectors';
+import { updateUser } from '../../store/user-data/user-data';
+import { UserData, UserFavouritesType } from '../../types/user-data';
 
 type Params = {
   id: string;
@@ -12,6 +19,10 @@ function formateDuration(duration: number) {
 
 export function FilmPage(): JSX.Element {
   const params = useParams<Params>();
+  const user = useSelector(getUser);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const { data, isLoading } = useGetCurrentFilmQuery(params.id as string);
   const currentFilm = data;
   const duration = currentFilm ? formateDuration(currentFilm.filmLength as number) : 0;
@@ -25,18 +36,35 @@ export function FilmPage(): JSX.Element {
       {genre.genre}
     </span>
   ));
-  const isCurrentFilm = currentFilm && currentFilm.filmId === Number(params.id) ? true : false;
+
+  function onButtonClick(evt: MouseEvent<HTMLButtonElement>) {
+    if (!user) {
+      navigate(AppRoutes.Login);
+      return;
+    }
+
+    let newUserData: UserData;
+    let type = evt.currentTarget.dataset.type as UserFavouritesType;
+
+    if (user[type].includes(currentFilm?.filmId as number)) {
+      newUserData = { ...user, [type]: user[type].filter((id) => id !== currentFilm?.filmId) };
+    } else {
+      newUserData = { ...user, [type]: user[type].concat(currentFilm?.filmId as number) };
+    }
+
+    dispatch(updateUser(newUserData));
+  }
 
   return (
     <main className="main">
       <Navigation />
       {isLoading && <h1>Загрузка...</h1>}
-      {isCurrentFilm && (
+      {currentFilm && (
         <section>
           <div className="film-details__top-container">
             <div className="film-details__info-wrap">
               <div className="film-details__poster">
-                <img className="film-details__poster-img" src={currentFilm?.posterUrl} alt="" />
+                <img className="film-details__poster-img" src={currentFilm.posterUrl} alt="" />
 
                 <p className="film-details__age">18+</p>
               </div>
@@ -44,12 +72,12 @@ export function FilmPage(): JSX.Element {
               <div className="film-details__info">
                 <div className="film-details__info-head">
                   <div className="film-details__title-wrap">
-                    <h3 className="film-details__title">{currentFilm?.nameRu}</h3>
-                    <p className="film-details__title-original">Оригинал: {currentFilm?.nameEn}</p>
+                    <h3 className="film-details__title">{currentFilm.nameRu}</h3>
+                    <p className="film-details__title-original">Оригинал: {currentFilm.nameEn}</p>
                   </div>
 
                   <div className="film-details__rating">
-                    <p className="film-details__total-rating">{currentFilm?.rating}</p>
+                    <p className="film-details__total-rating">{currentFilm.rating}</p>
                   </div>
                 </div>
 
@@ -57,7 +85,7 @@ export function FilmPage(): JSX.Element {
                   <tbody>
                     <tr className="film-details__row">
                       <td className="film-details__term">Год релиза</td>
-                      <td className="film-details__cell">{currentFilm?.year}</td>
+                      <td className="film-details__cell">{currentFilm.year}</td>
                     </tr>
                   </tbody>
                   <tbody>
@@ -80,32 +108,50 @@ export function FilmPage(): JSX.Element {
                   </tbody>
                 </table>
 
-                <p className="film-details__film-description">{currentFilm?.description}</p>
+                <p className="film-details__film-description">{currentFilm.description}</p>
               </div>
             </div>
 
             <section className="film-details__controls">
               <button
                 type="button"
-                className="film-details__control-button film-details__control-button--active film-details__control-button--watchlist"
+                className={`film-details__control-button film-details__control-button--watchlist ${
+                  user?.watchlist.includes(currentFilm.filmId)
+                    ? 'film-details__control-button--active'
+                    : ''
+                }`}
                 id="watchlist"
                 name="watchlist"
+                data-type="watchlist"
+                onClick={onButtonClick}
               >
                 Хочу посмотреть
               </button>
               <button
                 type="button"
-                className="film-details__control-button film-details__control-button--watched"
+                className={`film-details__control-button film-details__control-button--watched ${
+                  user?.history.includes(currentFilm.filmId)
+                    ? 'film-details__control-button--active'
+                    : ''
+                }`}
                 id="watched"
                 name="watched"
+                data-type="history"
+                onClick={onButtonClick}
               >
                 Уже видел
               </button>
               <button
                 type="button"
-                className="film-details__control-button film-details__control-button--favorite"
+                className={`film-details__control-button film-details__control-button--favorite ${
+                  user?.favorites.includes(currentFilm.filmId)
+                    ? 'film-details__control-button--active'
+                    : ''
+                }`}
                 id="favorite"
                 name="favorite"
+                data-type="favorites"
+                onClick={onButtonClick}
               >
                 {' '}
                 В избранное
