@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { getLoginStatus } from '../../store/selectors';
 
 export function PrivateRoute() {

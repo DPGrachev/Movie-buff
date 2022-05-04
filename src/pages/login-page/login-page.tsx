@@ -38,7 +38,6 @@ export function LoginPage(): JSX.Element {
   }
 
   function onLoginButtonClick() {
-    // evt.preventDefault();
     const userEmail = emailField.current?.value.toLowerCase() as string;
     const userPassword = passwordField.current?.value as string;
 
@@ -55,7 +54,6 @@ export function LoginPage(): JSX.Element {
   }
 
   function onRegistrationButtonClick() {
-    // evt.preventDefault();
     const userEmail = emailField.current?.value.toLowerCase() as string;
     const userPassword = passwordField.current?.value as string;
 
