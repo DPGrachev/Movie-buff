@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { getUser } from '../../store/selectors';
 import type { UserFavouritesType } from '../../types/user-data';
 import { useGetUserFilmsQuery } from '../../store/api';
-import { Pagination } from '../pagination/pagination';
+import Pagination from '../pagination/pagination';
 
 const PAGE_STEP = 5;
 
@@ -21,12 +21,15 @@ export function UserFilmsBoard({ type }: Props): JSX.Element {
   const { data } = useGetUserFilmsQuery(
     filmsId.slice(PAGE_STEP * (currentPage - 1), PAGE_STEP * currentPage),
   );
+  const preparedFilmCards = data?.map((film) => <FilmCard film={film} key={film.filmId} />);
 
   useEffect(() => {
     setCurrentPage(1);
   }, [type]);
 
-  const preparedFilmCards = data?.map((film) => <FilmCard film={film} key={film.filmId} />);
+  useEffect(() => {
+    if (preparedFilmCards && preparedFilmCards?.length < 1) setCurrentPage(1);
+  }, [preparedFilmCards]);
 
   return (
     <section className="films-list">

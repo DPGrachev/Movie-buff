@@ -17,6 +17,10 @@ const USER_DATA = createSlice({
       state.isLogin = true;
       state.user = action.payload;
     },
+    registration(state, action) {
+      state.isLogin = true;
+      state.user = action.payload;
+    },
     logout(state) {
       state.isLogin = false;
       state.user = null;
@@ -31,5 +35,5 @@ const USER_DATA = createSlice({
   },
 });
 
-export const { login, logout, updateUser, setContentType } = USER_DATA.actions;
+export const { login, registration, logout, updateUser, setContentType } = USER_DATA.actions;
 export default USER_DATA.reducer;
