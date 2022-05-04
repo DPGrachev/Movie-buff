@@ -30,13 +30,12 @@ function Pagination({ currentPageNumber, maxPagesNumber, setPageNumber }: Props)
     <div className="pagination page-content__pagination">
       <ul className="pagination__list">
         {currentPageNumber > 1 && (
-          <li className="pagination__page pagination__page--prev" id="prev">
-            <div
-              className="link pagination__page-link"
-              onClick={() => setPageNumber(currentPageNumber - 1)}
-            >
-              Назад
-            </div>
+          <li
+            className="pagination__page pagination__page--prev"
+            id="prev"
+            onClick={() => setPageNumber(currentPageNumber - 1)}
+          >
+            <div className="link pagination__page-link">Назад</div>
           </li>
         )}
         {currentPages[0] && (
@@ -44,13 +43,9 @@ function Pagination({ currentPageNumber, maxPagesNumber, setPageNumber }: Props)
             className={`pagination__page ${
               currentPageNumber === currentPages[0] ? 'pagination__page--active' : ''
             }`}
+            onClick={() => setPageNumber(currentPages[0])}
           >
-            <div
-              className="link pagination__page-link"
-              onClick={() => setPageNumber(currentPages[0])}
-            >
-              {currentPages[0]}
-            </div>
+            <div className="link pagination__page-link">{currentPages[0]}</div>
           </li>
         )}
         {currentPages[1] && (
@@ -58,13 +53,9 @@ function Pagination({ currentPageNumber, maxPagesNumber, setPageNumber }: Props)
             className={`pagination__page ${
               currentPageNumber === currentPages[1] ? 'pagination__page--active' : ''
             }`}
+            onClick={() => setPageNumber(currentPages[1])}
           >
-            <div
-              className="link pagination__page-link"
-              onClick={() => setPageNumber(currentPages[1])}
-            >
-              {currentPages[1]}
-            </div>
+            <div className="link pagination__page-link">{currentPages[1]}</div>
           </li>
         )}
         {currentPages[2] && (
@@ -72,23 +63,18 @@ function Pagination({ currentPageNumber, maxPagesNumber, setPageNumber }: Props)
             className={`pagination__page ${
               currentPageNumber === currentPages[2] ? 'pagination__page--active' : ''
             }`}
+            onClick={() => setPageNumber(currentPages[2])}
           >
-            <div
-              className="link pagination__page-link"
-              onClick={() => setPageNumber(currentPages[2])}
-            >
-              {currentPages[2]}
-            </div>
+            <div className="link pagination__page-link">{currentPages[2]}</div>
           </li>
         )}
         {currentPageNumber + 1 <= maxPagesNumber && (
-          <li className="pagination__page pagination__page--next" id="next">
-            <div
-              className="link pagination__page-link"
-              onClick={() => setPageNumber(currentPageNumber + 1)}
-            >
-              Далее
-            </div>
+          <li
+            className="pagination__page pagination__page--next"
+            id="next"
+            onClick={() => setPageNumber(currentPageNumber + 1)}
+          >
+            <div className="link pagination__page-link">Далее</div>
           </li>
         )}
       </ul>
