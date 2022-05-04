@@ -1,10 +1,9 @@
 import { MouseEvent } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { AppRoutes, ContentType } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-// import { setContentType } from '../../store/actions';
-import { getContentType, getUser } from '../../store/selectors';
+import { getUser } from '../../store/selectors';
 import { setContentType } from '../../store/user-data/user-data';
 
 type Props = {
@@ -12,8 +11,8 @@ type Props = {
 };
 
 export function NavigationItem({ name }: Props): JSX.Element {
+  const location = useLocation();
   const dispatch = useAppDispatch();
-  const currentContentType = useSelector(getContentType);
   const user = useSelector(getUser);
   let filmsCount = 0;
 
@@ -47,7 +46,7 @@ export function NavigationItem({ name }: Props): JSX.Element {
       <Link
         to={AppRoutes.Main}
         className={`main-navigation__item ${
-          currentContentType === name ? 'main-navigation__item--active' : ''
+          location.pathname === '/' ? 'main-navigation__item--active' : ''
         }`}
         onClick={onClick}
       >
@@ -60,7 +59,9 @@ export function NavigationItem({ name }: Props): JSX.Element {
     <Link
       to={`/userFilms/${adaptTypeToUserData()}`}
       className={`main-navigation__item ${
-        currentContentType === name ? 'main-navigation__item--active' : ''
+        location.pathname.includes(adaptTypeToUserData() as string)
+          ? 'main-navigation__item--active'
+          : ''
       }`}
       onClick={onClick}
     >

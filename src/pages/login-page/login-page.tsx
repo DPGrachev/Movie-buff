@@ -107,7 +107,7 @@ export function LoginPage(): JSX.Element {
 
               <button
                 className="login_form__submit"
-                // type="submit"
+                type="button"
                 onClick={isRegistration ? onRegistrationButtonClick : onLoginButtonClick}
               >
                 {isRegistration ? 'Зарегистрироваться' : 'Войти'}
